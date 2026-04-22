@@ -44,5 +44,6 @@ codex-foreman check-install
 - The release bundle is expected to keep the binary and `share/skills/cap/SKILL.md` together.
 - setup creates `~/.config/foreman/foreman-config.toml` on first install, reuses it on later runs, and migrates legacy JSON config when present.
 - delegated model and reasoning selection come from `foreman-config.toml`; the installer only seeds the default shared config.
-- the current Rust status/activity surface exposes fan-in readiness, active delegates, and best-effort token usage from worker raw events.
+- the current Rust status/activity surface exposes fan-in readiness, active delegates, best-effort token usage from worker raw events, and captain-visible reassignment boundaries.
+- the public `$cap` path for `0.0.1` is explicit captain-first entry, not auto-entry-first. `foreman_auto_entry` remains available for compatibility and diagnostics only.
 - The source repository is `codex-foreman`; this repository is only the release/install surface.

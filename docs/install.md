@@ -68,6 +68,8 @@ Foreman install check: status=ok version=0.0.1 entry=$cap registration=matching_
 
 The generated shared TOML config includes the default per-role `model`, reasoning tier (`variant`), `fast_mode`, and `config_entries` values. Runtime dispatch reads those values from `foreman-config.toml` when it launches delegated `codex exec` work, rather than hardcoding model or reasoning choices in the installer flow.
 
+For the public `$cap` path, `0.0.1` now treats explicit captain-first entry as canonical. Ordinary `$cap` work should start with an explicit bounded Foreman run and then let captain select and reassign specialists one at a time inside the same run. `foreman_auto_entry` remains available for compatibility and diagnostics, but it is no longer the default public `$cap` front door.
+
 ## Use
 
 After restarting Codex CLI:
