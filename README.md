@@ -26,15 +26,6 @@ curl -fsSL https://raw.githubusercontent.com/HoRi0506/Codex-Foreman-release/main
 codex-foreman check-install
 ```
 
-## Manual Install
-
-If you prefer not to use the installer script, download the current release bundle from the Releases page, unpack it, and run:
-
-```bash
-./bin/codex-foreman setup
-./bin/codex-foreman check-install
-```
-
 ## Layout
 
 - `bin/codex-foreman`: Rust CLI and MCP entrypoint
