@@ -40,4 +40,6 @@ codex-foreman check-install
 - npm is no longer the public install path for this baseline.
 - `install.sh` downloads the platform bundle that matches its asset naming convention.
 - The release bundle is expected to keep the binary and `share/skills/cap/SKILL.md` together.
+- setup writes `~/.config/foreman/foreman-config.toml` as the primary shared config and migrates legacy JSON config when present.
+- the current Rust status/activity surface exposes fan-in readiness, active delegates, and best-effort token usage from worker raw events.
 - The source repository is `codex-foreman`; this repository is only the release/install surface.
