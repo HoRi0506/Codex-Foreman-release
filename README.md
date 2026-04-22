@@ -4,17 +4,22 @@ Install-only release surface for the Rust-only `codex-foreman` `0.0.1` baseline.
 
 This repository is not the development source. It exists to publish the release bundle, install docs, and the public `$cap` asset that the Rust binary installs into Codex.
 
-## Quick Install
+## Install
 
-Install Codex-Foreman with one command:
+Copy this into Codex CLI, Claude Code, or a similar AI coding CLI:
+
+```text
+Install Codex-Foreman from https://github.com/HoRi0506/Codex-Foreman-release by running:
+curl -fsSL https://raw.githubusercontent.com/HoRi0506/Codex-Foreman-release/main/install.sh | bash
+
+After it finishes, run:
+codex-foreman check-install
+```
+
+If you want to run the installer directly in your shell:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/HoRi0506/Codex-Foreman-release/main/install.sh | bash
-```
-
-After install, restart Codex CLI and verify:
-
-```bash
 codex-foreman check-install
 ```
 
