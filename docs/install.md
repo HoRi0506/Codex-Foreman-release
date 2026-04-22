@@ -2,7 +2,24 @@
 
 Use this guide for the Rust-only `0.0.1` release bundle.
 
-## Install
+## Quick Install
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/HoRi0506/Codex-Foreman-release/main/install.sh | bash
+```
+
+The installer script:
+
+- detects the local OS and architecture
+- downloads the matching release asset
+- installs the bundle under `~/.local/share/codex-foreman/current`
+- links `codex-foreman` into `~/.local/bin`
+- runs `codex-foreman setup`
+- runs `codex-foreman check-install`
+
+After it finishes, restart Codex CLI.
+
+## Manual Install
 
 1. download and unpack the release bundle for your platform
 2. from the unpacked directory, run:
@@ -14,9 +31,18 @@ Use this guide for the Rust-only `0.0.1` release bundle.
 
 3. restart Codex CLI
 
+## Installer Variables
+
+The installer supports these optional environment variables:
+
+- `CODEX_FOREMAN_VERSION`: release tag to install, defaults to `v0.0.1`
+- `CODEX_FOREMAN_INSTALL_ROOT`: install root, defaults to `~/.local/share/codex-foreman`
+- `CODEX_FOREMAN_BIN_DIR`: directory for the `codex-foreman` symlink, defaults to `~/.local/bin`
+- `CODEX_FOREMAN_DOWNLOAD_URL`: explicit asset URL override, useful for local testing
+
 ## Healthy Check
 
-`./bin/codex-foreman check-install` should report:
+`codex-foreman check-install` should report:
 
 ```text
 Foreman install check: status=ok version=0.0.1 entry=$cap registration=matching_registration config=present skill=matching_install

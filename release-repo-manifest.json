@@ -9,6 +9,7 @@
     "README.md",
     ".gitignore",
     "bin",
+    "install.sh",
     "share",
     "docs",
     "release-repo-manifest.json"
