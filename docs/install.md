@@ -1,6 +1,6 @@
-# Install Codex-Cli-Captain 0.0.2
+# Install Codex-Cli-Captain 0.0.3
 
-Use this guide for the Rust-only `0.0.2` release bundle.
+Use this guide for the Rust-only `0.0.3` release bundle.
 
 ## Quick Install
 
@@ -18,35 +18,31 @@ The installer script:
 - runs `ccc setup`
 - runs `ccc check-install`
 
-The installer's own `check-install` run is only an immediate self-check.
-For the real post-install verification path, fully exit Codex CLI, start a new Codex CLI session, and then run:
+The installer's own `check-install` run is only an immediate self-check. For the real post-install verification path, fully exit Codex CLI, start a new Codex CLI session, and then run:
 
 ```bash
 ccc check-install
 ```
 
-## Manual Install
+## Reapply Config Changes
 
-1. download and unpack the release bundle for your platform
-2. from the unpacked directory, run:
+After editing `~/.config/foreman/ccc-config.toml`, paste this into Codex CLI:
 
-```bash
-./bin/ccc setup
+```text
+Run:
+ccc setup
+
+Then fully exit Codex CLI.
+Start a new Codex CLI session.
+Then run:
+ccc check-install
 ```
 
-3. fully exit Codex CLI
-4. start a new Codex CLI session
-5. run:
-
-```bash
-./bin/ccc check-install
-```
+`setup` reads the config, refreshes MCP registration, installs the packaged `$cap` skill, and syncs CCC-managed custom agents. Restarting Codex CLI makes the refreshed skill and custom-agent definitions available to the host session.
 
 ## Installer Variables
 
-The installer supports these optional environment variables:
-
-- `CCC_VERSION`: release tag to install, defaults to `v0.0.2`
+- `CCC_VERSION`: release tag to install, defaults to `v0.0.3`
 - `CCC_INSTALL_ROOT`: install root, defaults to `~/.local/share/ccc`
 - `CCC_BIN_DIR`: directory for the `ccc` symlink, defaults to `~/.local/bin`
 - `CCC_DOWNLOAD_URL`: explicit asset URL override, useful for local testing
@@ -56,30 +52,31 @@ The installer supports these optional environment variables:
 `ccc check-install` should report:
 
 ```text
-CCC install check: status=ok version=0.0.2 entry=$cap registration=matching_registration config=present skill=matching_install
+CCC install check: status=ok version=0.0.3 entry=$cap registration=matching_registration config=present skill=matching_install
 ```
+
+## Recommended Role Defaults
+
+| CCC role | Agent | Recommended model | Reasoning | Notes |
+| --- | --- | --- | --- | --- |
+| `orchestrator` | `captain` | `gpt-5.4` | `high` | LongWay ownership and final routing judgment |
+| `way` | `tactician` | `gpt-5.4` | `medium` | Planning and bounded next-move selection |
+| `explorer` | `scout` | `gpt-5.4-mini` | `medium` | Read-only repo evidence |
+| `code specialist` | `raider` | `gpt-5.3-codex` | `high` | Code/config mutation and repair |
+| `documenter` | `scribe` | `gpt-5.4-mini` | `medium` | README, release notes, and operator text |
+| `verifier` | `arbiter` | `gpt-5.4` | `medium` | Review, risk, regression, and acceptance checks |
+| `companion_reader` | `companion_reader` | `gpt-5.4-mini` | `medium` | Low-cost filesystem/docs/web/git/gh read work |
+| `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `medium` | Low-cost bounded git/gh mutation and narrow tool work |
 
 ## What Setup Does
 
 - registers or refreshes the `ccc` MCP entry in Codex CLI
 - creates `~/.config/foreman/ccc-config.toml` on first install using the canonical shared-config format
 - reuses the existing `~/.config/foreman/ccc-config.toml` when it is already present
-- migrates legacy `~/.config/foreman/foreman-config.toml` when present
-- migrates legacy `~/.config/foreman/foreman-config.json` when present
 - installs or refreshes the public `$cap` skill under `CODEX_HOME`
 - syncs CCC-managed Codex custom agents under `CODEX_HOME/agents`
 
-The generated shared TOML config includes the default per-role `model`, reasoning tier (`variant`), `fast_mode`, and `config_entries` values. Runtime dispatch reads those values from `ccc-config.toml` when it launches delegated `codex exec` work, rather than hardcoding model or reasoning choices in the installer flow.
-
-The public `$cap` skill and generated custom-agent prompts are intentionally compact. Ordinary captain loops should use `compact=true` CLI payloads and the short `subagent_contract` surface rather than repeatedly loading full run or delegation-plan JSON.
-
-For the public `$cap` path, `0.0.2` keeps explicit captain-first entry as canonical. Ordinary `$cap` work should start with an explicit bounded CCC run, let `Way` create a `LongWay`, and then let captain select and reassign specialists one at a time inside the same run. `ccc_auto_entry` remains available for compatibility and diagnostics, but it is no longer the default public `$cap` front door.
-
-`0.0.2` also makes generic companion tool routing real at runtime. When the routing policy in `ccc-config.toml` selects a companion owner, lightweight filesystem/docs/fetch/git inspection work is delegated to `companion_reader`, and git mutation work is delegated to `companion_operator`, using the configured mini-model profile during the actual worker launch.
-
-`0.0.2` also adds lane-aware raider fan-out/fan-in V1. Stable lanes are `raider-a` through `raider-d`; the default fan-out is 2 lanes only for explicit disjoint parallel work, the hard maximum is 4 lanes, and fan-in waits for every active lane before merge. `subagent-update` records `lane_id` so lane-level routing stays visible in compact lifecycle output.
-
-Prefer `--text`, `--quiet`, and `--json-file` for lower-noise repeated lifecycle calls. Host-side token status for custom subagents is limited and best-effort only. For correlation, use `child_agent_id` for the CCC role or managed agent name and `thread_id` for the raw host Codex session/thread identifier.
+The generated shared TOML config includes per-role model settings, companion-agent settings, and git/gh-oriented companion routing.
 
 ## Use
 

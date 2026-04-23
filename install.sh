@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO="HoRi0506/Codex-Cli-Captain-Release"
-VERSION="${CCC_VERSION:-v0.0.2}"
+VERSION="${CCC_VERSION:-v0.0.3}"
 INSTALL_ROOT="${CCC_INSTALL_ROOT:-$HOME/.local/share/ccc}"
 BIN_DIR="${CCC_BIN_DIR:-$HOME/.local/bin}"
 
@@ -46,7 +46,6 @@ TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/ccc-install.XXXXXX")"
 EXTRACT_DIR="${TMP_DIR}/extract"
 TARGET_DIR="${INSTALL_ROOT}/current"
 TARGET_BIN="${BIN_DIR}/ccc"
-LEGACY_BIN="${BIN_DIR}/codex-foreman"
 RELEASES_DIR="${INSTALL_ROOT}/releases"
 
 cleanup() {
@@ -89,12 +88,7 @@ ln -sfn "${TARGET_DIR}/bin/ccc" "$TARGET_BIN"
 
 echo "Refreshing Codex MCP registration..."
 codex mcp remove ccc >/dev/null 2>&1 || true
-codex mcp remove codex-foreman >/dev/null 2>&1 || true
 codex mcp add ccc -- "${TARGET_DIR}/bin/ccc" mcp
-
-if [ -L "$LEGACY_BIN" ]; then
-  rm -f "$LEGACY_BIN"
-fi
 
 echo "Running setup..."
 "${TARGET_DIR}/bin/ccc" setup

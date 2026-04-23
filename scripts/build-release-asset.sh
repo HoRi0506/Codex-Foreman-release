@@ -52,11 +52,21 @@ fi
 
 mkdir -p "${STAGE_DIR}" "${EXTRACT_DIR}"
 
-for entry in README.md install.sh release-repo-manifest.json bin share docs; do
+for entry in README.md README.ko.md README.ja.md install.sh release-repo-manifest.json bin share docs; do
   if [ -e "${REPO_ROOT}/${entry}" ]; then
     cp -R "${REPO_ROOT}/${entry}" "${STAGE_DIR}/${entry}"
   fi
 done
+
+if command -v strip >/dev/null 2>&1; then
+  strip "${STAGE_DIR}/bin/ccc" >/dev/null 2>&1 || strip -x "${STAGE_DIR}/bin/ccc" >/dev/null 2>&1 || {
+    echo "strip failed for staged bin/ccc" >&2
+    exit 1
+  }
+  echo "Stripped debug symbols from staged bin/ccc."
+else
+  echo "strip not found; packaging unstripped bin/ccc." >&2
+fi
 
 rm -f "${OUTPUT_PATH}"
 COPYFILE_DISABLE=1 tar -czf "${OUTPUT_PATH}" -C "${STAGE_DIR}" .

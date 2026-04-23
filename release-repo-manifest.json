@@ -1,12 +1,14 @@
 {
-  "generated_at": "2026-04-23T13:20:00Z",
+  "generated_at": "2026-04-23T14:40:00Z",
   "package_name": "ccc",
-  "package_version": "0.0.2",
+  "package_version": "0.0.3",
   "platform": "darwin-arm64",
   "public_entry_skill_name": "cap",
   "public_entry_label": "$cap",
   "managed_paths": [
     "README.md",
+    "README.ko.md",
+    "README.ja.md",
     ".gitignore",
     "bin",
     "install.sh",
