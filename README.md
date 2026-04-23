@@ -50,7 +50,9 @@ When a new `$cap` request arrives while an earlier run or subagent is still acti
 - raider lanes default to 2 lanes for broad or multi-file mutation, max 4
 - single-file or shared-scope mutation stays sequential
 
-Token totals and gauges appear when raw usage events are available. If host custom subagents do not expose usage events, CCC prints an explicit unavailable reason instead of guessing.
+Token gauges are always visible in `--text` and quiet lifecycle output. When raw usage events are available, CCC prints totals and a stacked gauge; when host custom subagents do not expose usage events, CCC prints a placeholder gauge with an explicit unavailable reason instead of guessing.
+
+Registered custom subagents are the default execution path. Direct `codex exec` fallback is blocked while a custom subagent is available unless an explicit fallback or codex override is recorded.
 
 ## Recommended Role Defaults
 

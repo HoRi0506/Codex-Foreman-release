@@ -87,7 +87,7 @@ The generated shared TOML config includes default per-role `model`, reasoning ti
 
 ## Status And Tokens
 
-Prefer `--text`, `--quiet`, and `--json-file` for lower-noise repeated lifecycle calls. `ccc status --text` prints token totals and a stacked gauge only when raw delegated-worker usage events are available. Quiet lifecycle lines (`ccc status --quiet`, `ccc start --quiet`, `ccc orchestrate --quiet`, `ccc subagent-update --quiet`) include compact token usage fields and explicit unavailable reason codes. Host-side custom subagent token totals are best-effort only; when raw usage is unavailable, CCC prints a clear unavailable reason instead of inventing numbers.
+Prefer `--text`, `--quiet`, and `--json-file` for lower-noise repeated lifecycle calls. `ccc status --text` and quiet lifecycle lines (`ccc status --quiet`, `ccc start --quiet`, `ccc orchestrate --quiet`, `ccc subagent-update --quiet`) always include a token gauge. Raw delegated-worker usage events produce totals and a stacked gauge; unavailable host-side custom subagent usage produces a placeholder gauge plus a clear unavailable reason instead of invented numbers.
 
 ## Check-Install Contract
 

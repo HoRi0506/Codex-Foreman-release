@@ -50,7 +50,9 @@ ccc check-install
 - raider는 넓거나 여러 파일을 수정하는 작업에서 기본 2개 lane을 사용하고 최대 4개까지 확장합니다
 - 단일 파일 또는 공유 범위 수정은 순차 실행을 유지합니다
 
-토큰 합계와 게이지는 raw usage 이벤트가 있을 때만 표시됩니다. host custom subagent가 usage 이벤트를 노출하지 않으면 CCC는 추정하지 않고 unavailable reason을 출력합니다.
+`--text`와 quiet lifecycle 출력에는 토큰 게이지가 항상 표시됩니다. Raw usage 이벤트가 있으면 CCC는 토큰 합계와 stacked gauge를 출력하고, host custom subagent가 usage 이벤트를 노출하지 않으면 추정 없이 placeholder gauge와 unavailable reason을 함께 출력합니다.
+
+등록된 custom subagent가 기본 실행 경로입니다. 사용 가능한 custom subagent가 있는 동안에는 명시적 fallback 또는 codex override가 기록되지 않는 한 직접 `codex exec` fallback을 막습니다.
 
 ## 추천 역할 설정
 

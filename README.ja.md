@@ -50,7 +50,9 @@ ccc check-install
 - raider は広い変更や複数ファイルの変更で既定 2 本の lane を使い、最大 4 本まで広げます
 - 単一ファイルまたは共有スコープの変更は sequential のままです
 
-トークン合計とゲージは raw usage event が利用できる場合だけ表示されます。host custom subagent が usage event を公開しない場合、CCC は推測せず unavailable reason を表示します。
+`--text` と quiet lifecycle 出力では token ゲージを常に表示します。raw usage event がある場合、CCC は token 合計と stacked gauge を表示し、host custom subagent が usage event を公開しない場合は推測せず placeholder gauge と unavailable reason を表示します。
+
+登録済み custom subagent が既定の実行経路です。利用可能な custom subagent がある間は、明示的な fallback または codex override が記録されていない限り、直接の `codex exec` fallback をブロックします。
 
 ## 推奨ロール設定
 
