@@ -42,6 +42,7 @@ Do not treat `$cap` as a hidden worker command surface. The host Codex session a
 - In normal operation, `captain` does not directly edit code or docs.
 - Actual work should be done by the selected specialist agent.
 - Delegated specialists must run with the role settings from `foreman-config.toml`; model, reasoning tier, fast mode, and config overrides come from the shared role config, not from hardcoded `$cap` choices.
+- Way or captain should also set the worker sandbox once per task-card. Read-only work should launch as `read-only`; mutation work should launch as `workspace-write`.
 - Only allow `captain` direct mutation when CCC cannot launch the specialist path honestly, bounded reclaim and one explicit captain retry already failed, or the operator explicitly approves a host-local fallback.
 
 ## Visibility contract
