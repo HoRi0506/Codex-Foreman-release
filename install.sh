@@ -65,8 +65,8 @@ curl -fsSL "$DOWNLOAD_URL" -o "${TMP_DIR}/${ASSET}" || {
 echo "Unpacking ${ASSET}..."
 tar -xzf "${TMP_DIR}/${ASSET}" -C "$EXTRACT_DIR"
 
-if [ ! -x "${EXTRACT_DIR}/bin/ccc" ]; then
-  echo "The downloaded bundle does not contain bin/ccc." >&2
+if [ ! -x "${EXTRACT_DIR}/bin/ccc" ] || [ ! -s "${EXTRACT_DIR}/bin/ccc" ]; then
+  echo "The downloaded bundle does not contain a non-empty executable bin/ccc." >&2
   exit 1
 fi
 

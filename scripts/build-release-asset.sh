@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+MANIFEST_PATH="${REPO_ROOT}/release-repo-manifest.json"
+
+need_cmd() {
+  if ! command -v "$1" >/dev/null 2>&1; then
+    echo "Missing required command: $1" >&2
+    exit 1
+  fi
+}
+
+need_cmd tar
+need_cmd mktemp
+
+if [ ! -f "${MANIFEST_PATH}" ]; then
+  echo "Missing manifest: ${MANIFEST_PATH}" >&2
+  exit 1
+fi
+
+manifest_value() {
+  local key="$1"
+  sed -n "s/.*\"${key}\": \"\\([^\"]*\\)\".*/\\1/p" "${MANIFEST_PATH}" | head -n 1
+}
+
+VERSION="${1:-$(manifest_value package_version)}"
+PLATFORM="${2:-$(manifest_value platform)}"
+
+if [ -z "${VERSION}" ] || [ -z "${PLATFORM}" ]; then
+  echo "Unable to resolve package_version/platform from ${MANIFEST_PATH}." >&2
+  exit 1
+fi
+
+ASSET_NAME="ccc-${VERSION#v}-${PLATFORM}.tar.gz"
+BINARY_PATH="${REPO_ROOT}/bin/ccc"
+OUTPUT_PATH="${REPO_ROOT}/${ASSET_NAME}"
+TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/ccc-release-asset.XXXXXX")"
+STAGE_DIR="${TMP_DIR}/stage"
+EXTRACT_DIR="${TMP_DIR}/extract"
+
+cleanup() {
+  rm -rf "${TMP_DIR}"
+}
+trap cleanup EXIT
+
+if [ ! -x "${BINARY_PATH}" ] || [ ! -s "${BINARY_PATH}" ]; then
+  echo "Expected a non-empty executable at ${BINARY_PATH} before packaging." >&2
+  exit 1
+fi
+
+mkdir -p "${STAGE_DIR}" "${EXTRACT_DIR}"
+
+for entry in README.md install.sh release-repo-manifest.json bin share docs; do
+  if [ -e "${REPO_ROOT}/${entry}" ]; then
+    cp -R "${REPO_ROOT}/${entry}" "${STAGE_DIR}/${entry}"
+  fi
+done
+
+rm -f "${OUTPUT_PATH}"
+COPYFILE_DISABLE=1 tar -czf "${OUTPUT_PATH}" -C "${STAGE_DIR}" .
+
+tar -xzf "${OUTPUT_PATH}" -C "${EXTRACT_DIR}"
+
+if [ ! -x "${EXTRACT_DIR}/bin/ccc" ] || [ ! -s "${EXTRACT_DIR}/bin/ccc" ]; then
+  echo "Generated ${ASSET_NAME}, but the extracted bundle has an invalid bin/ccc." >&2
+  exit 1
+fi
+
+echo "Built ${OUTPUT_PATH}"
+ls -lh "${OUTPUT_PATH}" "${EXTRACT_DIR}/bin/ccc"
