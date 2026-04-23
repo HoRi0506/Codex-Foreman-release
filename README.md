@@ -42,6 +42,16 @@ Then run:
 ccc check-install
 ```
 
+## Active Runs And Parallel Work
+
+When a new `$cap` request arrives while an earlier run or subagent is still active, CCC now surfaces that active run and recommends merge, replan, or reclaim handling. Host custom subagents cannot always be forcibly canceled by CCC, so the captain records stale work honestly and continues from the combined latest request.
+
+- scout lanes default to 2 read-only lanes for broad investigation, max 4
+- raider lanes default to 2 lanes for broad or multi-file mutation, max 4
+- single-file or shared-scope mutation stays sequential
+
+Token totals and gauges appear when raw usage events are available. If host custom subagents do not expose usage events, CCC prints an explicit unavailable reason instead of guessing.
+
 ## Recommended Role Defaults
 
 | CCC role | Agent | Recommended model | Reasoning | Notes |

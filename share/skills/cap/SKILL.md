@@ -21,6 +21,12 @@ Public flow: `captain -> Way -> captain -> specialist -> captain -> ... -> end`.
 - Do not let one specialist hand off directly to another; always return to captain.
 - For ordinary `$cap`, do not call `mcp__ccc__...` tools. Use the local `ccc` CLI; MCP is diagnostics-only unless the operator asks for it.
 
+## Active Requests
+
+When a new `$cap` request arrives while an earlier run or subagent is still active, CCC surfaces the active run and recommends merge, replan, or reclaim handling.
+
+Host custom subagents cannot always be forcibly canceled by CCC, so captain should mark stale work as reclaimed or merged and continue from the combined latest request.
+
 ## Compact Loop
 
 Use compact CLI surfaces by default. Full JSON/status is debug-only.
@@ -32,7 +38,7 @@ Use compact CLI surfaces by default. Full JSON/status is debug-only.
    `ccc start --quiet --json '{"prompt":"<request>","title":"<short>","intent":"<short>","goal":"<short>","scope":"<bounded>","acceptance":"<done when>","task_kind":"way","compact":true}'`
 5. For decisions, use:
    `ccc status --text --json '{"run_id":"<run_id>"}'`
-   - quiet lifecycle lines (`start` / `orchestrate` / `subagent-update` / `status`) already include compact token usage or explicit unavailable reason fields; prefer those over ad-hoc token guesses.
+   - quiet lifecycle lines (`start` / `orchestrate` / `subagent-update` / `status`) already include compact token usage fields or explicit unavailable reason fields when raw usage events exist; prefer those over ad-hoc token guesses.
 6. Use `command_templates` from compact status. Do not run `ccc ... --help`, broad `rg`, or session-history searches to discover syntax.
 7. If `preferred_specialist_execution_mode=codex_subagent` and a custom agent is available, use that subagent first.
 8. Follow `subagent_spawn_contract`: use the named custom agent, avoid full-history fork, and omit agent/model/reasoning overrides already defined by the custom agent.
@@ -64,6 +70,16 @@ Use CCC-managed custom agents when available:
 - `ccc_companion_operator`: lightweight mutation/operator-side work
 
 Do not route to generic helper agents when a matching CCC specialist exists.
+
+## Parallel Lanes
+
+- scout lanes default to 2 read-only lanes when broad or parallel investigation is useful, with a max of 4
+- raider lanes default to 2 lanes for broad or multi-file mutation, with a max of 4
+- single-file or shared-scope mutation stays sequential
+
+## Token Visibility
+
+`ccc status --text` prints token totals and a stacked gauge only when raw delegated-worker usage events are available. When those events are missing, CCC prints an explicit unavailable reason instead of guessing totals.
 
 ## Discipline
 

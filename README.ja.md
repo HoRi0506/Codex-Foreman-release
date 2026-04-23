@@ -42,6 +42,16 @@ Then run:
 ccc check-install
 ```
 
+## Active Run と並列作業
+
+以前の run や subagent がまだ active な状態で新しい `$cap` リクエストが届くと、CCC は既存の active run を表示し、merge、replan、reclaim のどれで扱うべきかを示します。ホスト側 custom subagent は CCC から常に強制キャンセルできるとは限らないため、captain が stale な作業を記録し、最新リクエストと統合して続行します。
+
+- scout は広い調査で既定 2 本の読み取り専用 lane を使い、最大 4 本まで広げます
+- raider は広い変更や複数ファイルの変更で既定 2 本の lane を使い、最大 4 本まで広げます
+- 単一ファイルまたは共有スコープの変更は sequential のままです
+
+トークン合計とゲージは raw usage event が利用できる場合だけ表示されます。host custom subagent が usage event を公開しない場合、CCC は推測せず unavailable reason を表示します。
+
 ## 推奨ロール設定
 
 | CCC role | Agent | 推奨モデル | Reasoning | 用途 |

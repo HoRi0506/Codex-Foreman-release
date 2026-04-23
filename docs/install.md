@@ -40,6 +40,18 @@ ccc check-install
 
 `setup` reads the config, refreshes MCP registration, installs the packaged `$cap` skill, and syncs CCC-managed custom agents. Restarting Codex CLI makes the refreshed skill and custom-agent definitions available to the host session.
 
+## Active Requests
+
+If a new `$cap` request arrives while an earlier run or subagent is still active, CCC surfaces the active run and recommends merge, replan, or reclaim handling.
+
+Because host custom subagents cannot always be forcibly canceled by CCC, captain should treat stale work as reclaimed or merged and continue from the combined latest request.
+
+## Parallel Lanes
+
+- scout lanes default to 2 read-only lanes when broad or parallel investigation is useful, with a max of 4
+- raider lanes default to 2 lanes for broad or multi-file mutation, with a max of 4
+- single-file or shared-scope mutation stays sequential
+
 ## Installer Variables
 
 - `CCC_VERSION`: release tag to install, defaults to `v0.0.3`
@@ -47,13 +59,18 @@ ccc check-install
 - `CCC_BIN_DIR`: directory for the `ccc` symlink, defaults to `~/.local/bin`
 - `CCC_DOWNLOAD_URL`: explicit asset URL override, useful for local testing
 
-## Healthy Check
+## What Setup Does
 
-`ccc check-install` should report:
+- registers or refreshes the MCP entrypoint
+- creates `~/.config/foreman/ccc-config.toml` on first install using the canonical shared-config format
+- reuses the existing `~/.config/foreman/ccc-config.toml` when it is already present
+- backfills missing `companion_agents` / `tool_routing` defaults (including `gh` routing) in existing `ccc-config.toml` files without overwriting user-set values
+- migrates legacy `~/.config/foreman/foreman-config.toml` when present
+- migrates legacy `~/.config/foreman/foreman-config.json` when present
+- installs or refreshes the packaged `$cap` skill
+- syncs CCC-managed Codex custom agents under `CODEX_HOME/agents`
 
-```text
-CCC install check: status=ok version=0.0.3 entry=$cap registration=matching_registration config=present skill=matching_install
-```
+The generated shared TOML config includes default per-role `model`, reasoning tier (`variant`), `fast_mode`, companion-agent settings, and git/gh-oriented companion routing.
 
 ## Recommended Role Defaults
 
@@ -68,22 +85,22 @@ CCC install check: status=ok version=0.0.3 entry=$cap registration=matching_regi
 | `companion_reader` | `companion_reader` | `gpt-5.4-mini` | `medium` | Low-cost filesystem/docs/web/git/gh read work |
 | `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `medium` | Low-cost bounded git/gh mutation and narrow tool work |
 
-## What Setup Does
+## Status And Tokens
 
-- registers or refreshes the `ccc` MCP entry in Codex CLI
-- creates `~/.config/foreman/ccc-config.toml` on first install using the canonical shared-config format
-- reuses the existing `~/.config/foreman/ccc-config.toml` when it is already present
-- backfills missing `companion_agents` / `tool_routing` defaults, including `gh` routing, without overwriting user-set values
-- installs or refreshes the public `$cap` skill under `CODEX_HOME`
-- syncs CCC-managed Codex custom agents under `CODEX_HOME/agents`
+Prefer `--text`, `--quiet`, and `--json-file` for lower-noise repeated lifecycle calls. `ccc status --text` prints token totals and a stacked gauge only when raw delegated-worker usage events are available. Quiet lifecycle lines (`ccc status --quiet`, `ccc start --quiet`, `ccc orchestrate --quiet`, `ccc subagent-update --quiet`) include compact token usage fields and explicit unavailable reason codes. Host-side custom subagent token totals are best-effort only; when raw usage is unavailable, CCC prints a clear unavailable reason instead of inventing numbers.
 
-The generated shared TOML config includes per-role model settings, companion-agent settings, and git/gh-oriented companion routing. Quiet lifecycle lines include compact token fields such as `tokens=3.1k` or explicit unavailable reason codes when host usage data is not exposed.
+## Check-Install Contract
 
-## Use
+`ccc check-install` is the stable install-health surface.
 
-After restarting Codex CLI:
+Expected top block:
 
 ```text
-$cap inspect this repository and report findings only
-$cap implement the scoped fix, run tests, then commit and push
+CCC install check: status=ok version=0.0.3 entry=$cap registration=matching_registration config=present skill=matching_install
 ```
+
+Base install expectation:
+
+- `status=ok` when the Rust MCP registration, config file, and `$cap` skill all match the local binary
+- `status=warning` when one of those surfaces is missing or mismatched
+- custom-agent sync health is also reported in the detailed payload and summary lines
