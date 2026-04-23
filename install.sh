@@ -47,13 +47,14 @@ EXTRACT_DIR="${TMP_DIR}/extract"
 TARGET_DIR="${INSTALL_ROOT}/current"
 TARGET_BIN="${BIN_DIR}/ccc"
 LEGACY_BIN="${BIN_DIR}/codex-foreman"
+RELEASES_DIR="${INSTALL_ROOT}/releases"
 
 cleanup() {
   rm -rf "$TMP_DIR"
 }
 trap cleanup EXIT
 
-mkdir -p "$EXTRACT_DIR" "$BIN_DIR" "$INSTALL_ROOT"
+mkdir -p "$EXTRACT_DIR" "$BIN_DIR" "$INSTALL_ROOT" "$RELEASES_DIR"
 
 echo "Downloading ${ASSET}..."
 curl -fsSL "$DOWNLOAD_URL" -o "${TMP_DIR}/${ASSET}" || {
@@ -70,9 +71,20 @@ if [ ! -x "${EXTRACT_DIR}/bin/ccc" ] || [ ! -s "${EXTRACT_DIR}/bin/ccc" ]; then
   exit 1
 fi
 
-rm -rf "$TARGET_DIR"
-mkdir -p "$TARGET_DIR"
-cp -R "${EXTRACT_DIR}/." "$TARGET_DIR/"
+BUNDLE_DIR="${RELEASES_DIR}/${VERSION#v}-${OS}-${ARCH}"
+STAGED_BUNDLE_DIR="${RELEASES_DIR}/.${VERSION#v}-${OS}-${ARCH}.$$"
+
+rm -rf "$STAGED_BUNDLE_DIR"
+mkdir -p "$STAGED_BUNDLE_DIR"
+cp -R "${EXTRACT_DIR}/." "$STAGED_BUNDLE_DIR/"
+
+rm -rf "$BUNDLE_DIR"
+mv "$STAGED_BUNDLE_DIR" "$BUNDLE_DIR"
+
+if [ -e "$TARGET_DIR" ] && [ ! -L "$TARGET_DIR" ]; then
+  rm -rf "$TARGET_DIR"
+fi
+ln -sfn "$BUNDLE_DIR" "$TARGET_DIR"
 ln -sfn "${TARGET_DIR}/bin/ccc" "$TARGET_BIN"
 
 echo "Refreshing Codex MCP registration..."

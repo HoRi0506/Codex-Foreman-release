@@ -23,9 +23,11 @@ ccc check-install
 ## What You Get
 
 - `ccc` CLI and MCP entrypoint
-- `$cap` skill
+- compact `$cap` skill
 - `~/.config/foreman/ccc-config.toml`
+- CCC-managed custom agents synced from `ccc-config.toml`
 - runtime companion routing that can send lightweight filesystem/docs/fetch/git work to the configured `gpt-5.4-mini` companion roles
+- compact captain/subagent status payloads for lower repeated token cost
 
 ## Healthy Check
 

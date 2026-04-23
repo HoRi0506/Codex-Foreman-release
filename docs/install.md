@@ -12,7 +12,8 @@ The installer script:
 
 - detects the local OS and architecture
 - downloads the matching release asset
-- installs the bundle under `~/.local/share/ccc/current`
+- installs the bundle under `~/.local/share/ccc/releases/<version-platform>`
+- points `~/.local/share/ccc/current` at that bundle
 - links `ccc` into `~/.local/bin`
 - runs `ccc setup`
 - runs `ccc check-install`
@@ -66,8 +67,11 @@ CCC install check: status=ok version=0.0.2 entry=$cap registration=matching_regi
 - migrates legacy `~/.config/foreman/foreman-config.toml` when present
 - migrates legacy `~/.config/foreman/foreman-config.json` when present
 - installs or refreshes the public `$cap` skill under `CODEX_HOME`
+- syncs CCC-managed Codex custom agents under `CODEX_HOME/agents`
 
 The generated shared TOML config includes the default per-role `model`, reasoning tier (`variant`), `fast_mode`, and `config_entries` values. Runtime dispatch reads those values from `ccc-config.toml` when it launches delegated `codex exec` work, rather than hardcoding model or reasoning choices in the installer flow.
+
+The public `$cap` skill and generated custom-agent prompts are intentionally compact. Ordinary captain loops should use `compact=true` CLI payloads and the short `subagent_contract` surface rather than repeatedly loading full run or delegation-plan JSON.
 
 For the public `$cap` path, `0.0.2` keeps explicit captain-first entry as canonical. Ordinary `$cap` work should start with an explicit bounded CCC run, let `Way` create a `LongWay`, and then let captain select and reassign specialists one at a time inside the same run. `ccc_auto_entry` remains available for compatibility and diagnostics, but it is no longer the default public `$cap` front door.
 
