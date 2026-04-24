@@ -54,9 +54,9 @@ If Codex reports file-descriptor pressure such as `Too many open files (os error
 - raider lanes default to 2 lanes for broad or multi-file mutation, max 4
 - single-file or shared-scope mutation stays sequential
 
-Token gauges are always visible in `--text` and quiet lifecycle output. When raw usage events are available, CCC prints totals and a stacked gauge; when host custom subagents do not expose usage events, CCC prints a placeholder gauge with an explicit unavailable reason instead of guessing.
+Token gauges are always visible in `--text` and quiet lifecycle output. When raw usage events are available, CCC prints totals and a stacked gauge; when host custom subagents do not expose usage events, CCC prints a placeholder gauge with an explicit unavailable reason instead of guessing. Structured status/activity payloads also expose `token_usage_visibility.status` and `token_usage_visibility.unavailable_reason_code`.
 
-Registered custom subagents are the default execution path. Host Codex as captain owns LongWay, routing, lifecycle, fan-in, review, validation, and commit boundaries. Ordinary `$cap` work should go to the matching specialist first: read-only investigation to `ccc_scout`, docs/operator text to `ccc_scribe`, code/config mutation to `ccc_raider`, and review judgment to `ccc_arbiter`. The captain should only do the work directly for explicit fallback, trivial operator-side fixes, or recorded CCC degradation.
+Registered custom subagents are the default execution path. Host Codex as captain owns LongWay, routing, lifecycle, fan-in, review, validation, and commit boundaries. Ordinary `$cap` work should go to the matching specialist first: read-only investigation to `ccc_scout`, docs/operator text to `ccc_scribe`, code/config mutation to `ccc_raider`, and review judgment to `ccc_arbiter`. Route-backed lightweight filesystem/docs/fetch/git/gh work should use the configured companion owner: git and `gh` reads go to `companion_reader`, and git or `gh` mutations go to `companion_operator` unless the captain records fallback/degradation. The captain should only do the work directly for explicit fallback, trivial operator-side fixes, or recorded CCC degradation.
 
 Direct `codex exec` fallback is blocked while a custom subagent is available unless an explicit fallback or codex override is recorded.
 

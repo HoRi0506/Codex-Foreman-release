@@ -48,7 +48,7 @@ If a new `$cap` request arrives while an earlier run or subagent is still active
 
 Because host custom subagents cannot always be forcibly canceled by CCC, captain should treat stale work as reclaimed or merged and continue from the combined latest request.
 
-Host Codex as captain owns LongWay, routing, lifecycle, fan-in, review, validation, and commit boundaries. Ordinary read-only investigation, docs edits, code/config mutation, and review judgment should go to `ccc_scout`, `ccc_scribe`, `ccc_raider`, and `ccc_arbiter` via custom subagents when available; direct captain work stays limited to explicit fallback, trivial operator-side fixes, or recorded CCC degradation.
+Host Codex as captain owns LongWay, routing, lifecycle, fan-in, review, validation, and commit boundaries. Ordinary read-only investigation, docs edits, code/config mutation, and review judgment should go to `ccc_scout`, `ccc_scribe`, `ccc_raider`, and `ccc_arbiter` via custom subagents when available; direct captain work stays limited to explicit fallback, trivial operator-side fixes, or recorded CCC degradation. Route-backed lightweight filesystem/docs/fetch/git/gh work should use the configured companion owner: git and `gh` reads go to `companion_reader`, and git or `gh` mutations go to `companion_operator` unless the captain records fallback/degradation.
 
 If the host reports file-descriptor pressure such as `Too many open files (os error 24)`, stop opening additional reviewers or specialists. Record terminal lifecycle state for every active host agent, merge or reclaim it through captain, and close the host agent before continuing so file and thread handles are released.
 
@@ -96,7 +96,7 @@ The generated shared TOML config includes default per-role `model`, reasoning ti
 
 ## Status And Tokens
 
-Prefer `--text`, `--quiet`, and `--json-file` for lower-noise repeated lifecycle calls. `ccc status --text` and quiet lifecycle lines (`ccc status --quiet`, `ccc start --quiet`, `ccc orchestrate --quiet`, `ccc subagent-update --quiet`) always include a token gauge. Raw delegated-worker usage events produce totals and a stacked gauge; unavailable host-side custom subagent usage produces a placeholder gauge plus a clear unavailable reason instead of invented numbers.
+Prefer `--text`, `--quiet`, and `--json-file` for lower-noise repeated lifecycle calls. `ccc status --text` and quiet lifecycle lines (`ccc status --quiet`, `ccc start --quiet`, `ccc orchestrate --quiet`, `ccc subagent-update --quiet`) always include a token gauge. Raw delegated-worker usage events produce totals and a stacked gauge; unavailable host-side custom subagent usage produces a placeholder gauge plus a clear unavailable reason instead of invented numbers. Structured status/activity payloads also expose `token_usage_visibility.status` and `token_usage_visibility.unavailable_reason_code` for JSON consumers.
 
 ## Check-Install Contract
 
