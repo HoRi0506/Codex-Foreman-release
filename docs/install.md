@@ -50,6 +50,8 @@ Because host custom subagents cannot always be forcibly canceled by CCC, captain
 
 Host Codex as captain owns LongWay, routing, lifecycle, fan-in, review, validation, and commit boundaries. Ordinary read-only investigation, docs edits, code/config mutation, and review judgment should go to `ccc_scout`, `ccc_scribe`, `ccc_raider`, and `ccc_arbiter` via custom subagents when available; direct captain work stays limited to explicit fallback, trivial operator-side fixes, or recorded CCC degradation.
 
+If the host reports file-descriptor pressure such as `Too many open files (os error 24)`, stop opening additional reviewers or specialists. Record terminal lifecycle state for every active host agent, merge or reclaim it through captain, and close the host agent before continuing so file and thread handles are released.
+
 ## Parallel Lanes
 
 - scout lanes default to 2 read-only lanes when broad or parallel investigation is useful, with a max of 4

@@ -48,6 +48,8 @@ ccc check-install
 
 以前の run や subagent がまだ active な状態で新しい `$cap` リクエストが届くと、CCC は既存の active run を表示し、merge、replan、reclaim のどれで扱うべきかを示します。ホスト側 custom subagent は CCC から常に強制キャンセルできるとは限らないため、captain が stale な作業を記録し、最新リクエストと統合して続行します。
 
+Codex が `Too many open files (os error 24)` のような file descriptor 圧迫を報告した場合、新しい reviewer や specialist を追加で開かないでください。各 active host agent を terminal lifecycle update として記録し、captain が merge または reclaim したうえで、host session でその agent を close し、thread/file handle が解放されるまで単一経路で進めます。
+
 - scout は広い調査で既定 2 本の読み取り専用 lane を使い、最大 4 本まで広げます
 - raider は広い変更や複数ファイルの変更で既定 2 本の lane を使い、最大 4 本まで広げます
 - 単一ファイルまたは共有スコープの変更は sequential のままです

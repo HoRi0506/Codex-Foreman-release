@@ -48,6 +48,8 @@ ccc check-install
 
 When a new `$cap` request arrives while an earlier run or subagent is still active, CCC now surfaces that active run and recommends merge, replan, or reclaim handling. Host custom subagents cannot always be forcibly canceled by CCC, so the captain records stale work honestly and continues from the combined latest request.
 
+If Codex reports file-descriptor pressure such as `Too many open files (os error 24)`, pause new reviewer or specialist launches. Keep the work single-path until each active host agent has a terminal lifecycle update, is merged or reclaimed by captain, and is closed in the host session so thread/file handles are released.
+
 - scout lanes default to 2 read-only lanes for broad investigation, max 4
 - raider lanes default to 2 lanes for broad or multi-file mutation, max 4
 - single-file or shared-scope mutation stays sequential
