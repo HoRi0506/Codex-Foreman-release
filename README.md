@@ -32,7 +32,7 @@ For updates, run the same install command again. It downloads the current releas
 
 ## Reapply Config Changes
 
-After editing `~/.config/ccc/ccc-config.toml`, paste this into Codex CLI. Existing `~/.config/foreman/ccc-config.toml` installs are read as a fallback and migrated by `ccc setup`.
+After editing `~/.config/ccc/ccc-config.toml`, paste this into Codex CLI. Existing `~/.config/foreman/ccc-config.toml` installs are read as a fallback and migrated by `ccc setup`. Fresh installs generate `~/.config/ccc/ccc-config.toml` with the `gpt-5.4-mini` mini roles set to `variant = "high"` and `fast_mode = true`, and `ccc setup` preserves any existing user-customized values while backfilling only missing generated defaults.
 
 ```text
 Run:
@@ -66,12 +66,12 @@ Direct `codex exec` fallback is blocked while a custom subagent is available unl
 | --- | --- | --- | --- | --- |
 | `orchestrator` | `captain` | `gpt-5.5` | `high` | LongWay ownership and final routing judgment |
 | `way` | `tactician` | `gpt-5.5` | `medium` | Planning and bounded next-move selection |
-| `explorer` | `scout` | `gpt-5.4-mini` | `medium` | Read-only repo evidence |
+| `explorer` | `scout` | `gpt-5.4-mini` | `high` | Read-only repo evidence |
 | `code specialist` | `raider` | `gpt-5.5` | `high` | Code/config mutation and repair |
-| `documenter` | `scribe` | `gpt-5.4-mini` | `medium` | README, release notes, and operator text |
+| `documenter` | `scribe` | `gpt-5.4-mini` | `high` | README, release notes, and operator text |
 | `verifier` | `arbiter` | `gpt-5.5` | `medium` | Review, risk, regression, and acceptance checks |
-| `companion_reader` | `companion_reader` | `gpt-5.4-mini` | `medium` | Low-cost filesystem/docs/web/git/gh read work |
-| `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `medium` | Low-cost bounded git/gh mutation and narrow tool work |
+| `companion_reader` | `companion_reader` | `gpt-5.4-mini` | `high` | Low-cost filesystem/docs/web/git/gh read work |
+| `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `high` | Low-cost bounded git/gh mutation and narrow tool work |
 
 `gpt-5.5` is recommended for the high-value roles when Codex is signed in with ChatGPT. If it is unavailable in the current account or execution path, use `gpt-5.4` for those roles until rollout reaches that path.
 

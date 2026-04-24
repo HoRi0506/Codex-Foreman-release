@@ -71,13 +71,13 @@ If the host reports file-descriptor pressure such as `Too many open files (os er
 - creates `~/.config/ccc/ccc-config.toml` on first install using the canonical shared-config format
 - reuses the existing `~/.config/ccc/ccc-config.toml` when it is already present
 - migrates or reads the previous `~/.config/foreman/ccc-config.toml` fallback when present
-- backfills missing `companion_agents` / `tool_routing` defaults (including `gh` routing) in existing `ccc-config.toml` files without overwriting user-set values
+- backfills missing `companion_agents` / `tool_routing` defaults (including `gh` routing) in existing `ccc-config.toml` files while preserving user-customized values
 - migrates legacy `~/.config/foreman/foreman-config.toml` when present
 - migrates legacy `~/.config/foreman/foreman-config.json` when present
 - installs or refreshes the packaged `$cap` skill
 - syncs CCC-managed Codex custom agents under `CODEX_HOME/agents`
 
-The generated shared TOML config includes default per-role `model`, reasoning tier (`variant`), `fast_mode`, companion-agent settings, and git/gh-oriented companion routing.
+The generated shared TOML config includes default per-role `model`, reasoning tier (`variant`), `fast_mode`, companion-agent settings, and git/gh-oriented companion routing. Fresh installs set the `gpt-5.4-mini` mini roles (`explorer`, `documenter`, `companion_reader`, and `companion_operator`) to `variant = "high"` and `fast_mode = true`, while `ccc setup` preserves existing user-customized values and only backfills missing generated defaults.
 
 ## Recommended Role Defaults
 
@@ -85,12 +85,12 @@ The generated shared TOML config includes default per-role `model`, reasoning ti
 | --- | --- | --- | --- | --- |
 | `orchestrator` | `captain` | `gpt-5.5` | `high` | LongWay ownership and final routing judgment |
 | `way` | `tactician` | `gpt-5.5` | `medium` | Planning and bounded next-move selection |
-| `explorer` | `scout` | `gpt-5.4-mini` | `medium` | Read-only repo evidence |
+| `explorer` | `scout` | `gpt-5.4-mini` | `high` | Read-only repo evidence |
 | `code specialist` | `raider` | `gpt-5.5` | `high` | Code/config mutation and repair |
-| `documenter` | `scribe` | `gpt-5.4-mini` | `medium` | README, release notes, and operator text |
+| `documenter` | `scribe` | `gpt-5.4-mini` | `high` | README, release notes, and operator text |
 | `verifier` | `arbiter` | `gpt-5.5` | `medium` | Review, risk, regression, and acceptance checks |
-| `companion_reader` | `companion_reader` | `gpt-5.4-mini` | `medium` | Low-cost filesystem/docs/web/git/gh read work |
-| `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `medium` | Low-cost bounded git/gh mutation and narrow tool work |
+| `companion_reader` | `companion_reader` | `gpt-5.4-mini` | `high` | Low-cost filesystem/docs/web/git/gh read work |
+| `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `high` | Low-cost bounded git/gh mutation and narrow tool work |
 
 `gpt-5.5` is recommended for the high-value roles when Codex is signed in with ChatGPT. If it is unavailable in the current account or execution path, use `gpt-5.4` for those roles until rollout reaches that path.
 
