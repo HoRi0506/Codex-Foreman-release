@@ -3,6 +3,14 @@
   "package_name": "ccc",
   "package_version": "0.0.3",
   "platform": "darwin-arm64",
+  "supported_platforms": [
+    "darwin-arm64",
+    "darwin-x86_64",
+    "linux-arm64",
+    "linux-x86_64",
+    "windows-x86_64",
+    "windows-arm64"
+  ],
   "public_entry_skill_name": "cap",
   "public_entry_label": "$cap",
   "managed_paths": [

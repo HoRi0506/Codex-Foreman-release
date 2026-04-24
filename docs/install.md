@@ -18,6 +18,17 @@ The installer script:
 - runs `ccc setup`
 - runs `ccc check-install`
 
+Supported release asset platforms are:
+
+- `darwin-arm64`
+- `darwin-x86_64`
+- `linux-arm64`
+- `linux-x86_64`
+- `windows-x86_64`
+- `windows-arm64`
+
+This Bash installer performs native installs on macOS and Linux only. Windows entries are release asset metadata/packaging targets; use `CCC_PRINT_ASSET=1` with `CCC_PLATFORM=windows-x86_64` or `CCC_PLATFORM=windows-arm64` to verify the asset name without downloading or running an install.
+
 For updates, run the same install command again. The installer downloads the selected release asset, updates `~/.local/share/ccc/current` and the linked `ccc` binary, then refreshes setup and check-install.
 
 The installer's own `check-install` run is only an immediate self-check. For the real post-install verification path, fully exit Codex CLI, start a new Codex CLI session, and then run:
@@ -64,6 +75,17 @@ If the host reports file-descriptor pressure such as `Too many open files (os er
 - `CCC_INSTALL_ROOT`: install root, defaults to `~/.local/share/ccc`
 - `CCC_BIN_DIR`: directory for the `ccc` symlink, defaults to `~/.local/bin`
 - `CCC_DOWNLOAD_URL`: explicit asset URL override, useful for local testing
+- `CCC_PLATFORM`: explicit supported platform override, useful for verification; Windows overrides are asset-name only and require `CCC_PRINT_ASSET=1`
+- `CCC_PRINT_ASSET=1`: print the resolved release asset name and exit before download or install
+
+Release builder asset-name validation uses the same print-only convention:
+
+```bash
+CCC_PRINT_ASSET=1 ./scripts/build-release-asset.sh 0.0.3 windows-x86_64
+CCC_PRINT_ASSET=1 ./scripts/build-release-asset.sh 0.0.3 windows-arm64
+```
+
+For a local no-download check across installer and builder asset names, run `./scripts/verify-release-asset-matrix.sh`.
 
 ## What Setup Does
 

@@ -5,6 +5,9 @@ REPO="HoRi0506/Codex-Cli-Captain-Release"
 VERSION="${CCC_VERSION:-v0.0.3}"
 INSTALL_ROOT="${CCC_INSTALL_ROOT:-$HOME/.local/share/ccc}"
 BIN_DIR="${CCC_BIN_DIR:-$HOME/.local/bin}"
+PLATFORM_OVERRIDE="${CCC_PLATFORM:-}"
+PRINT_ASSET="${CCC_PRINT_ASSET:-}"
+SUPPORTED_PLATFORMS="darwin-arm64 darwin-x86_64 linux-arm64 linux-x86_64 windows-x86_64 windows-arm64"
 
 need_cmd() {
   if ! command -v "$1" >/dev/null 2>&1; then
@@ -13,35 +16,72 @@ need_cmd() {
   fi
 }
 
-need_cmd uname
+is_supported_platform() {
+  case "$1" in
+    darwin-arm64|darwin-x86_64|linux-arm64|linux-x86_64|windows-x86_64|windows-arm64) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+if [ -n "$PLATFORM_OVERRIDE" ]; then
+  if ! is_supported_platform "$PLATFORM_OVERRIDE"; then
+    echo "Unsupported platform override: $PLATFORM_OVERRIDE" >&2
+    echo "Supported platforms: ${SUPPORTED_PLATFORMS}" >&2
+    exit 1
+  fi
+  OS="${PLATFORM_OVERRIDE%-*}"
+  ARCH="${PLATFORM_OVERRIDE#*-}"
+else
+  need_cmd uname
+
+  OS="$(uname -s)"
+  ARCH="$(uname -m)"
+
+  case "$OS" in
+    Darwin) OS="darwin" ;;
+    Linux) OS="linux" ;;
+    *)
+      echo "Unsupported OS: $OS" >&2
+      exit 1
+      ;;
+  esac
+
+  case "$ARCH" in
+    arm64|aarch64) ARCH="arm64" ;;
+    x86_64|amd64) ARCH="x86_64" ;;
+    *)
+      echo "Unsupported architecture: $ARCH" >&2
+      exit 1
+      ;;
+  esac
+fi
+
+PLATFORM="${OS}-${ARCH}"
+
+if ! is_supported_platform "$PLATFORM"; then
+  echo "Unsupported platform: $PLATFORM" >&2
+  echo "Supported platforms: ${SUPPORTED_PLATFORMS}" >&2
+  exit 1
+fi
+
+ASSET="ccc-${VERSION#v}-${PLATFORM}.tar.gz"
+DOWNLOAD_URL="${CCC_DOWNLOAD_URL:-https://github.com/${REPO}/releases/download/${VERSION}/${ASSET}}"
+
+if [ "$PRINT_ASSET" = "1" ]; then
+  echo "$ASSET"
+  exit 0
+fi
+
+if [ "$OS" = "windows" ]; then
+  echo "Windows release assets can be named with CCC_PRINT_ASSET=1, but this Bash installer does not perform native Windows installs." >&2
+  exit 1
+fi
+
 need_cmd mktemp
 need_cmd tar
 need_cmd curl
 need_cmd codex
 
-OS="$(uname -s)"
-ARCH="$(uname -m)"
-
-case "$OS" in
-  Darwin) OS="darwin" ;;
-  Linux) OS="linux" ;;
-  *)
-    echo "Unsupported OS: $OS" >&2
-    exit 1
-    ;;
-esac
-
-case "$ARCH" in
-  arm64|aarch64) ARCH="arm64" ;;
-  x86_64|amd64) ARCH="x86_64" ;;
-  *)
-    echo "Unsupported architecture: $ARCH" >&2
-    exit 1
-    ;;
-esac
-
-ASSET="ccc-${VERSION#v}-${OS}-${ARCH}.tar.gz"
-DOWNLOAD_URL="${CCC_DOWNLOAD_URL:-https://github.com/${REPO}/releases/download/${VERSION}/${ASSET}}"
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/ccc-install.XXXXXX")"
 EXTRACT_DIR="${TMP_DIR}/extract"
 TARGET_DIR="${INSTALL_ROOT}/current"

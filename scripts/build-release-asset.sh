@@ -4,6 +4,8 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 MANIFEST_PATH="${REPO_ROOT}/release-repo-manifest.json"
+PRINT_ASSET="${CCC_PRINT_ASSET:-}"
+SUPPORTED_PLATFORMS="darwin-arm64 darwin-x86_64 linux-arm64 linux-x86_64 windows-x86_64 windows-arm64"
 
 need_cmd() {
   if ! command -v "$1" >/dev/null 2>&1; then
@@ -11,9 +13,6 @@ need_cmd() {
     exit 1
   fi
 }
-
-need_cmd tar
-need_cmd mktemp
 
 if [ ! -f "${MANIFEST_PATH}" ]; then
   echo "Missing manifest: ${MANIFEST_PATH}" >&2
@@ -25,6 +24,13 @@ manifest_value() {
   sed -n "s/.*\"${key}\": \"\\([^\"]*\\)\".*/\\1/p" "${MANIFEST_PATH}" | head -n 1
 }
 
+is_supported_platform() {
+  case "$1" in
+    darwin-arm64|darwin-x86_64|linux-arm64|linux-x86_64|windows-x86_64|windows-arm64) return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 VERSION="${1:-$(manifest_value package_version)}"
 PLATFORM="${2:-$(manifest_value platform)}"
 
@@ -33,7 +39,22 @@ if [ -z "${VERSION}" ] || [ -z "${PLATFORM}" ]; then
   exit 1
 fi
 
+if ! is_supported_platform "${PLATFORM}"; then
+  echo "Unsupported platform: ${PLATFORM}" >&2
+  echo "Supported platforms: ${SUPPORTED_PLATFORMS}" >&2
+  exit 1
+fi
+
 ASSET_NAME="ccc-${VERSION#v}-${PLATFORM}.tar.gz"
+
+if [ "${PRINT_ASSET}" = "1" ]; then
+  echo "${ASSET_NAME}"
+  exit 0
+fi
+
+need_cmd tar
+need_cmd mktemp
+
 BINARY_PATH="${REPO_ROOT}/bin/ccc"
 OUTPUT_PATH="${REPO_ROOT}/${ASSET_NAME}"
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/ccc-release-asset.XXXXXX")"
@@ -59,11 +80,11 @@ for entry in README.md README.ko.md README.ja.md install.sh release-repo-manifes
 done
 
 if command -v strip >/dev/null 2>&1; then
-  strip "${STAGE_DIR}/bin/ccc" >/dev/null 2>&1 || strip -x "${STAGE_DIR}/bin/ccc" >/dev/null 2>&1 || {
-    echo "strip failed for staged bin/ccc" >&2
-    exit 1
-  }
-  echo "Stripped debug symbols from staged bin/ccc."
+  if strip "${STAGE_DIR}/bin/ccc" >/dev/null 2>&1 || strip -x "${STAGE_DIR}/bin/ccc" >/dev/null 2>&1; then
+    echo "Stripped debug symbols from staged bin/ccc."
+  else
+    echo "strip could not process staged bin/ccc; packaging unstripped binary." >&2
+  fi
 else
   echo "strip not found; packaging unstripped bin/ccc." >&2
 fi
