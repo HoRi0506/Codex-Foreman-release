@@ -32,7 +32,7 @@ ccc check-install
 
 ## 설정 변경 반영
 
-`~/.config/foreman/ccc-config.toml`을 수정한 뒤 Codex CLI에 아래 문구를 붙여넣으세요.
+`~/.config/ccc/ccc-config.toml`을 수정한 뒤 Codex CLI에 아래 문구를 붙여넣으세요. 기존 `~/.config/foreman/ccc-config.toml` 설치는 fallback으로 읽고 `ccc setup`이 새 위치로 마이그레이션합니다.
 
 ```text
 Run:

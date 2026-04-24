@@ -32,7 +32,7 @@ For updates, run the same install command again. It downloads the current releas
 
 ## Reapply Config Changes
 
-After editing `~/.config/foreman/ccc-config.toml`, paste this into Codex CLI:
+After editing `~/.config/ccc/ccc-config.toml`, paste this into Codex CLI. Existing `~/.config/foreman/ccc-config.toml` installs are read as a fallback and migrated by `ccc setup`.
 
 ```text
 Run:

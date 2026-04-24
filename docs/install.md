@@ -28,7 +28,7 @@ ccc check-install
 
 ## Reapply Config Changes
 
-After editing `~/.config/foreman/ccc-config.toml`, paste this into Codex CLI:
+After editing `~/.config/ccc/ccc-config.toml`, paste this into Codex CLI:
 
 ```text
 Run:
@@ -64,8 +64,9 @@ Because host custom subagents cannot always be forcibly canceled by CCC, captain
 ## What Setup Does
 
 - registers or refreshes the MCP entrypoint
-- creates `~/.config/foreman/ccc-config.toml` on first install using the canonical shared-config format
-- reuses the existing `~/.config/foreman/ccc-config.toml` when it is already present
+- creates `~/.config/ccc/ccc-config.toml` on first install using the canonical shared-config format
+- reuses the existing `~/.config/ccc/ccc-config.toml` when it is already present
+- migrates or reads the previous `~/.config/foreman/ccc-config.toml` fallback when present
 - backfills missing `companion_agents` / `tool_routing` defaults (including `gh` routing) in existing `ccc-config.toml` files without overwriting user-set values
 - migrates legacy `~/.config/foreman/foreman-config.toml` when present
 - migrates legacy `~/.config/foreman/foreman-config.json` when present
