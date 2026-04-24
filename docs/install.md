@@ -1,8 +1,8 @@
-# Install Codex-Cli-Captain 0.0.3
+# Install & Update Codex-Cli-Captain 0.0.3
 
 Use this guide for the Rust-only `0.0.3` release bundle.
 
-## Quick Install
+## Quick Install & Update
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/HoRi0506/Codex-Cli-Captain-Release/main/install.sh | bash
@@ -17,6 +17,8 @@ The installer script:
 - links `ccc` into `~/.local/bin`
 - runs `ccc setup`
 - runs `ccc check-install`
+
+For updates, run the same install command again. The installer downloads the selected release asset, updates `~/.local/share/ccc/current` and the linked `ccc` binary, then refreshes setup and check-install.
 
 The installer's own `check-install` run is only an immediate self-check. For the real post-install verification path, fully exit Codex CLI, start a new Codex CLI session, and then run:
 
@@ -76,14 +78,16 @@ The generated shared TOML config includes default per-role `model`, reasoning ti
 
 | CCC role | Agent | Recommended model | Reasoning | Notes |
 | --- | --- | --- | --- | --- |
-| `orchestrator` | `captain` | `gpt-5.4` | `high` | LongWay ownership and final routing judgment |
-| `way` | `tactician` | `gpt-5.4` | `medium` | Planning and bounded next-move selection |
+| `orchestrator` | `captain` | `gpt-5.5` | `high` | LongWay ownership and final routing judgment |
+| `way` | `tactician` | `gpt-5.5` | `medium` | Planning and bounded next-move selection |
 | `explorer` | `scout` | `gpt-5.4-mini` | `medium` | Read-only repo evidence |
-| `code specialist` | `raider` | `gpt-5.3-codex` | `high` | Code/config mutation and repair |
+| `code specialist` | `raider` | `gpt-5.5` | `high` | Code/config mutation and repair |
 | `documenter` | `scribe` | `gpt-5.4-mini` | `medium` | README, release notes, and operator text |
-| `verifier` | `arbiter` | `gpt-5.4` | `medium` | Review, risk, regression, and acceptance checks |
+| `verifier` | `arbiter` | `gpt-5.5` | `medium` | Review, risk, regression, and acceptance checks |
 | `companion_reader` | `companion_reader` | `gpt-5.4-mini` | `medium` | Low-cost filesystem/docs/web/git/gh read work |
 | `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `medium` | Low-cost bounded git/gh mutation and narrow tool work |
+
+`gpt-5.5` is recommended for the high-value roles when Codex is signed in with ChatGPT. If it is unavailable in the current account or execution path, use `gpt-5.4` for those roles until rollout reaches that path.
 
 ## Status And Tokens
 

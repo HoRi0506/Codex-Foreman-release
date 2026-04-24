@@ -14,7 +14,7 @@
 
 Codex CLI는 이미 똑똑합니다. 그 똑똑함을 조금 더 잘 활용하고 싶으신가요? 100달러 요금제도 나왔고, 이제는 모델을 더 막연히 쓰기보다 합리적인 과정으로 쓰고 싶을 때입니다. CCC에 오신 것을 환영합니다. 이제 요청 앞에 `$cap`만 붙이면, Codex-Cli-Captain이 captain-led 흐름으로 작업을 정리하고 적절한 에이전트를 거쳐 결과를 돌려줍니다.
 
-## 설치
+## 설치 및 업데이트
 
 Codex CLI에 아래 문구를 붙여넣으세요.
 
@@ -27,6 +27,8 @@ Start a new Codex CLI session.
 Then run:
 ccc check-install
 ```
+
+업데이트할 때도 같은 install 명령을 다시 실행하세요. 현재 릴리즈 asset을 내려받아 `current` symlink와 `ccc` binary를 갱신하고, setup과 `ccc check-install`을 다시 실행합니다. 이후 Codex CLI를 완전히 재시작해야 갱신된 `$cap` skill과 custom agent가 로드됩니다.
 
 ## 설정 변경 반영
 
@@ -58,11 +60,13 @@ ccc check-install
 
 | CCC role | Agent | 추천 모델 | Reasoning | 용도 |
 | --- | --- | --- | --- | --- |
-| `orchestrator` | `captain` | `gpt-5.4` | `high` | LongWay 관리와 최종 라우팅 판단 |
-| `way` | `tactician` | `gpt-5.4` | `medium` | 계획 수립과 다음 작업 선택 |
+| `orchestrator` | `captain` | `gpt-5.5` | `high` | LongWay 관리와 최종 라우팅 판단 |
+| `way` | `tactician` | `gpt-5.5` | `medium` | 계획 수립과 다음 작업 선택 |
 | `explorer` | `scout` | `gpt-5.4-mini` | `medium` | 읽기 전용 repo 조사 |
-| `code specialist` | `raider` | `gpt-5.3-codex` | `high` | 코드/config 수정과 복구 |
+| `code specialist` | `raider` | `gpt-5.5` | `high` | 코드/config 수정과 복구 |
 | `documenter` | `scribe` | `gpt-5.4-mini` | `medium` | README, 릴리즈 노트, 사용자 문구 |
-| `verifier` | `arbiter` | `gpt-5.4` | `medium` | 리뷰, 리스크, 회귀 확인 |
+| `verifier` | `arbiter` | `gpt-5.5` | `medium` | 리뷰, 리스크, 회귀 확인 |
 | `companion_reader` | `companion_reader` | `gpt-5.4-mini` | `medium` | 저비용 filesystem/docs/web/git/gh 읽기 작업 |
 | `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `medium` | 저비용 git/gh 변경 및 좁은 도구 실행 |
+
+`gpt-5.5`는 ChatGPT 인증 Codex에서 고가치 역할에 권장되는 모델입니다. 현재 계정이나 실행 경로에서 아직 사용할 수 없다면 해당 역할은 rollout이 도달할 때까지 `gpt-5.4`를 사용합니다.
