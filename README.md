@@ -48,7 +48,7 @@ For updates, run the same install command again. It downloads the current releas
 
 After editing `~/.config/ccc/ccc-config.toml`, paste this into Codex CLI. Existing `~/.config/foreman/ccc-config.toml` installs are read as a fallback and migrated by `ccc setup`. Fresh installs generate `~/.config/ccc/ccc-config.toml` with every `gpt-5.4-mini` mini role set to reasoning `variant = "high"` and `fast_mode = true`, and `ccc setup` preserves any existing user-customized values while backfilling missing generated defaults or upgrading stale CCC-generated defaults.
 
-Generated defaults keep the captain's reasoning quality unchanged while making handoffs cheaper: configured mini/specialist roles stay on the faster service path, copied task details are shortened before they are sent to delegated workers, and `$cap` plus custom-agent instructions stay compact.
+Generated defaults keep the captain's reasoning quality unchanged while making handoffs cheaper: configured mini/specialist roles stay on the faster service path, copied task details are shortened before they are sent to delegated workers, and the refreshed `$cap` skill plus custom-agent instructions stay compact while the active-specialist drift guardrail keeps stale output from silently overriding the captain's chosen path.
 
 ```text
 Run:
