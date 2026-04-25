@@ -4,17 +4,25 @@ Use this guide for the Rust-only `0.0.4` release bundle.
 
 ## Quick Install & Update
 
+macOS and Linux:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/HoRi0506/Codex-Cli-Captain-Release/main/install.sh | bash
+```
+
+Windows PowerShell:
+
+```powershell
+iwr -UseB https://raw.githubusercontent.com/HoRi0506/Codex-Cli-Captain-Release/main/install.ps1 | iex
 ```
 
 The installer script:
 
 - detects the local OS and architecture
 - downloads the matching release asset
-- installs the bundle under `~/.local/share/ccc/releases/<version-platform>`
-- points `~/.local/share/ccc/current` at that bundle
-- links `ccc` into `~/.local/bin`
+- installs the bundle under `~/.local/share/ccc/releases/<version-platform>` on macOS/Linux or `%LOCALAPPDATA%\ccc\releases\<version-platform>` on Windows
+- points the current install at that bundle
+- links or shims `ccc` into `~/.local/bin` on macOS/Linux or `%USERPROFILE%\.local\bin\ccc.cmd` on Windows
 - runs `ccc setup`
 - runs `ccc check-install`
 
@@ -27,7 +35,7 @@ Supported release asset platforms are:
 - `windows-x86_64`
 - `windows-arm64`
 
-This Bash installer performs native installs on macOS and Linux only. Windows entries are release asset metadata/packaging targets; use `CCC_PRINT_ASSET=1` with `CCC_PLATFORM=windows-x86_64` or `CCC_PLATFORM=windows-arm64` to verify the asset name without downloading or running an install.
+The Bash installer performs native installs on macOS and Linux. The PowerShell installer performs native installs on Windows and supports `windows-x86_64` and `windows-arm64`.
 
 For updates, run the same install command again. The installer downloads the selected release asset, updates `~/.local/share/ccc/current` and the linked `ccc` binary, then refreshes setup and check-install.
 
@@ -77,7 +85,7 @@ For document/checklist-backed requests where the operator asks CCC to finish or 
 - `CCC_INSTALL_ROOT`: install root, defaults to `~/.local/share/ccc`
 - `CCC_BIN_DIR`: directory for the `ccc` symlink, defaults to `~/.local/bin`
 - `CCC_DOWNLOAD_URL`: explicit asset URL override, useful for local testing
-- `CCC_PLATFORM`: explicit supported platform override, useful for verification; Windows overrides are asset-name only and require `CCC_PRINT_ASSET=1`
+- `CCC_PLATFORM`: explicit supported platform override, useful for verification
 - `CCC_PRINT_ASSET=1`: print the resolved release asset name and exit before download or install
 
 Release builder asset-name validation uses the same print-only convention:
@@ -87,7 +95,7 @@ CCC_PRINT_ASSET=1 ./scripts/build-release-asset.sh 0.0.4 windows-x86_64
 CCC_PRINT_ASSET=1 ./scripts/build-release-asset.sh 0.0.4 windows-arm64
 ```
 
-For a local no-download check across installer and builder asset names, run `./scripts/verify-release-asset-matrix.sh`.
+For a local no-download check across installer and builder asset names plus the Windows install smoke, run `./scripts/verify-release-asset-matrix.sh`. The Windows-specific smoke can also be run directly with `./scripts/verify-windows-install-smoke.sh`.
 
 ## What Setup Does
 
@@ -101,7 +109,7 @@ For a local no-download check across installer and builder asset names, run `./s
 - installs or refreshes the packaged `$cap` skill
 - syncs CCC-managed Codex custom agents under `CODEX_HOME/agents`
 
-The generated shared TOML config includes default per-role `model`, reasoning tier (`variant`), `fast_mode`, companion-agent settings, and git/gh-oriented companion routing. Fresh installs set the `gpt-5.4-mini` mini roles (`explorer`, `documenter`, `companion_reader`, and `companion_operator`) to `variant = "high"` and `fast_mode = true`, while `ccc setup` preserves existing user-customized values and only backfills missing generated defaults.
+The generated shared TOML config includes default per-role `model`, reasoning tier (`variant`), `fast_mode`, companion-agent settings, generated-defaults version metadata, and git/gh-oriented companion routing. Fresh installs set the `gpt-5.4-mini` mini roles (`explorer`, `documenter`, `companion_reader`, and `companion_operator`) to `variant = "high"` and `fast_mode = true`, while `ccc setup` preserves existing user-customized values, backfills missing generated defaults, and upgrades stale generated defaults when they match older CCC-generated values.
 
 ## Recommended Role Defaults
 

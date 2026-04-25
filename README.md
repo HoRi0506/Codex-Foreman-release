@@ -16,7 +16,7 @@ Codex CLI is already smart. Want to use that intelligence with a little more str
 
 ## Install & Update
 
-Copy this into Codex CLI:
+Copy this into Codex CLI on macOS or Linux:
 
 ```text
 Install Codex-Cli-Captain from https://github.com/HoRi0506/Codex-Cli-Captain-Release by running:
@@ -28,11 +28,23 @@ Then run:
 ccc check-install
 ```
 
-For updates, run the same install command again. It downloads the current release asset, updates the `current` symlink and `ccc` binary, refreshes setup, and reruns `ccc check-install`; fully restart Codex CLI afterward so the refreshed `$cap` skill and custom agents are loaded.
+On Windows PowerShell:
+
+```text
+Install Codex-Cli-Captain from https://github.com/HoRi0506/Codex-Cli-Captain-Release by running:
+iwr -UseB https://raw.githubusercontent.com/HoRi0506/Codex-Cli-Captain-Release/main/install.ps1 | iex
+
+After installation finishes, fully exit Codex CLI.
+Start a new Codex CLI session.
+Then run:
+ccc check-install
+```
+
+For updates, run the same install command again. It downloads the current release asset, updates the current install pointer or Windows install directory plus `ccc` command shim, refreshes setup, and reruns `ccc check-install`; fully restart Codex CLI afterward so the refreshed `$cap` skill and custom agents are loaded.
 
 ## Reapply Config Changes
 
-After editing `~/.config/ccc/ccc-config.toml`, paste this into Codex CLI. Existing `~/.config/foreman/ccc-config.toml` installs are read as a fallback and migrated by `ccc setup`. Fresh installs generate `~/.config/ccc/ccc-config.toml` with the `gpt-5.4-mini` mini roles set to `variant = "high"` and `fast_mode = true`, and `ccc setup` preserves any existing user-customized values while backfilling only missing generated defaults.
+After editing `~/.config/ccc/ccc-config.toml`, paste this into Codex CLI. Existing `~/.config/foreman/ccc-config.toml` installs are read as a fallback and migrated by `ccc setup`. Fresh installs generate `~/.config/ccc/ccc-config.toml` with the `gpt-5.4-mini` mini roles set to `variant = "high"` and `fast_mode = true`, and `ccc setup` preserves any existing user-customized values while backfilling missing generated defaults or upgrading stale CCC-generated defaults.
 
 ```text
 Run:
@@ -54,7 +66,7 @@ If Codex reports file-descriptor pressure such as `Too many open files (os error
 - raider lanes default to 2 lanes for broad or multi-file mutation, max 4
 - single-file or shared-scope mutation stays sequential
 
-Token gauges are always visible in `--text` and quiet lifecycle output. When raw usage events are available, CCC prints totals and a stacked gauge; when host custom subagents do not expose usage events, CCC prints a placeholder gauge with an explicit unavailable reason instead of guessing. Structured status/activity payloads also expose `token_usage_visibility.status` and `token_usage_visibility.unavailable_reason_code`.
+Token gauges are always visible in `--text` and quiet lifecycle output. When raw usage events are available, CCC prints totals and a stacked gauge; when host custom subagents do not expose usage events, CCC prints a placeholder gauge with an explicit unavailable reason instead of guessing. Structured status/activity payloads also expose `token_usage_visibility.status` and `token_usage_visibility.unavailable_reason_code`. Review pressure also accounts for active runs, stale/reclaim-needed workers, file-handle pressure, token soft limits, low OS memory availability, and single-thread CPU pressure before adding reviewer load.
 
 Registered custom subagents are the default execution path. Host Codex as captain owns LongWay, routing, lifecycle, fan-in, review, validation, and commit boundaries. Ordinary `$cap` work should go to the matching specialist first: read-only investigation to `ccc_scout`, docs/operator text to `ccc_scribe`, code/config mutation to `ccc_raider`, and review judgment to `ccc_arbiter`. Route-backed lightweight filesystem/docs/fetch/git/gh work should use the configured companion owner: git and `gh` reads go to `companion_reader`, and git or `gh` mutations go to `companion_operator` unless the captain records fallback/degradation. The captain should only do the work directly for explicit fallback, trivial operator-side fixes, or recorded CCC degradation.
 

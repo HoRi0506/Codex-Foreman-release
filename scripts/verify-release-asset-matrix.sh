@@ -5,6 +5,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 INSTALLER="${REPO_ROOT}/install.sh"
 BUILDER="${REPO_ROOT}/scripts/build-release-asset.sh"
+WINDOWS_SMOKE="${REPO_ROOT}/scripts/verify-windows-install-smoke.sh"
 VERSION="0.0.4"
 SUPPORTED_PLATFORMS=(
   darwin-arm64
@@ -75,5 +76,7 @@ expect_failure_contains \
 expect_failure_contains \
   "Windows release assets can be named with CCC_PRINT_ASSET=1, but this Bash installer does not perform native Windows installs." \
   env CCC_VERSION="v${VERSION}" CCC_PLATFORM="windows-x86_64" "$INSTALLER"
+
+"${WINDOWS_SMOKE}"
 
 echo "Release asset matrix verification passed."
