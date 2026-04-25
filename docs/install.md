@@ -117,6 +117,8 @@ Captain keeps its configured reasoning quality; token/speed tuning focuses on fa
 
 ## Recommended Role Defaults
 
+For regular CCC use, ChatGPT Pro $100 is the recommended starting plan because `$cap` workflows can spend more Codex usage through repeated captain and specialist handoffs. Adjust reasoning by your working style, task risk, and observed token usage: keep higher reasoning for broad planning, risky code changes, or reviews, and lower it for narrow, repetitive, or low-risk tasks.
+
 | CCC role | Agent | Recommended model | Reasoning | Notes |
 | --- | --- | --- | --- | --- |
 | `orchestrator` | `captain` | `gpt-5.5` | `high` | LongWay ownership and final routing judgment |
