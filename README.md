@@ -60,6 +60,8 @@ Registered custom subagents are the default execution path. Host Codex as captai
 
 Direct `codex exec` fallback is blocked while a custom subagent is available unless an explicit fallback or codex override is recorded.
 
+For release notes, plans, checklists, and other `.md`-backed requests where the operator asks CCC to finish or continue work to completion, CCC records completion discipline in run/status surfaces. The captain should derive remaining items from the referenced source and continue bounded slices until each in-scope item is complete, explicitly deferred, or blocked on a concrete operator decision.
+
 ## Recommended Role Defaults
 
 | CCC role | Agent | Recommended model | Reasoning | Notes |

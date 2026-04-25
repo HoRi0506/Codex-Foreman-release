@@ -63,6 +63,8 @@ Host Codex as captain owns LongWay, routing, lifecycle, fan-in, review, validati
 
 If the host reports file-descriptor pressure such as `Too many open files (os error 24)`, stop opening additional reviewers or specialists. Record terminal lifecycle state for every active host agent, merge or reclaim it through captain, and close the host agent before continuing so file and thread handles are released.
 
+For document/checklist-backed requests where the operator asks CCC to finish or continue work to completion, status surfaces include `completion_discipline`. Treat the referenced source as completion criteria and continue bounded slices until all in-scope items are completed, explicitly deferred, or blocked on a concrete operator decision.
+
 ## Parallel Lanes
 
 - scout lanes default to 2 read-only lanes when broad or parallel investigation is useful, with a max of 4

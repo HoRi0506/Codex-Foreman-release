@@ -31,6 +31,8 @@ Host custom subagents cannot always be forcibly canceled by CCC, so captain shou
 
 If the operator intervenes while a subagent is active, route the request only through captain. Record the intervention as a bounded delta plus rationale in LongWay/task-card state, classify it as clarification-only, bounded scope amendment, or direction/risk correction, and choose exactly one action: same-worker amend if safe, reclaim if forced interruption is unsupported or scope changed materially, or reassignment to a better-fit specialist. Keep stale output visible and do not let it overwrite the chosen path unless captain explicitly merges it. Use the same bounded retry/reassign budget as dissatisfaction repair, with no unlimited amend loops, scope widening without explicit replan or re-scope, or duplicate mutable workers just for intervention.
 
+If the host shows file-descriptor pressure such as `Too many open files (os error 24)`, do not open additional reviewers or specialists until active host agents are terminally recorded and closed. Prefer single-path work, record `completed`, `failed`, `stalled`, `reclaimed`, or `merged` through `ccc subagent-update`, then close every host agent you spawned so thread/file handles are released before continuing.
+
 ## Compact Loop
 
 Use compact CLI surfaces by default. Full JSON/status is debug-only.
@@ -42,7 +44,7 @@ Use compact CLI surfaces by default. Full JSON/status is debug-only.
    `ccc start --quiet --json '{"prompt":"<request>","title":"<short>","intent":"<short>","goal":"<short>","scope":"<bounded>","acceptance":"<done when>","task_kind":"way","compact":true}'`
 5. For decisions, use:
    `ccc status --text --json '{"run_id":"<run_id>"}'`
-   - quiet lifecycle lines (`start` / `orchestrate` / `subagent-update` / `status`) already include compact token usage fields or explicit unavailable reason fields when raw usage events exist; prefer those over ad-hoc token guesses.
+   - quiet lifecycle lines (`start` / `orchestrate` / `subagent-update` / `status`) already include compact token usage fields or explicit unavailable reason fields; structured status/activity also exposes `token_usage_visibility.status` and `token_usage_visibility.unavailable_reason_code`; prefer those over ad-hoc token guesses.
 6. Use `command_templates` from compact status. Do not run `ccc ... --help`, broad `rg`, or session-history searches to discover syntax.
 7. If `preferred_specialist_execution_mode=codex_subagent` and a custom agent is available, use that subagent first.
 8. Follow `subagent_spawn_contract`: use the named custom agent, avoid full-history fork, and omit agent/model/reasoning overrides already defined by the custom agent.
@@ -53,11 +55,13 @@ Use compact CLI surfaces by default. Full JSON/status is debug-only.
    - Do not claim CCC can control host Codex `/agent` Spawned/Waiting row labels.
 10. Required lifecycle order: `spawned -> completed|failed|stalled -> merged`.
 11. Subagent fan-in must be compact structured data: `summary`, `status`, `evidence_paths`, `next_action`, `open_questions`, `confidence`. If a subagent result is unsatisfactory, record the rationale and next action, keep the prior result visible, and send only one bounded repair or reassignment with a narrowed prompt.
-12. If `codex_exec_fallback_allowed=false`, do not call `ccc orchestrate` as fallback for that task-card until a terminal subagent update or explicit `fallback_reason` is recorded.
-13. Replan/resolve through compact orchestrate templates:
+12. After each spawned host agent reaches terminal fan-in, close that host agent before opening another one. This is mandatory under `os error 24` or other file-handle pressure.
+13. If `codex_exec_fallback_allowed=false`, do not call `ccc orchestrate` as fallback for that task-card until a terminal subagent update or explicit `fallback_reason` is recorded.
+14. Replan/resolve through compact orchestrate templates:
    `ccc orchestrate --quiet --json '{...,"compact":true}'`
-14. Prefer `--json-file` for repeated lifecycle payloads to avoid shell-quoted raw JSON noise.
-15. Reply only when complete, blocked, or waiting on a real operator decision. Do not print the final answer twice.
+15. For document/checklist-backed requests that ask to finish, complete, continue, or work "끝까지", treat the referenced document as completion criteria. Keep iterating bounded slices until every in-scope item is completed, explicitly deferred, or blocked with a concrete operator decision; a first partial slice is not complete.
+16. Prefer `--json-file` for repeated lifecycle payloads to avoid shell-quoted raw JSON noise.
+17. Reply only when complete, blocked, or waiting on a real operator decision. Do not print the final answer twice.
 
 ## Routing
 
@@ -71,6 +75,8 @@ Use CCC-managed custom agents when available:
 - `ccc_sentinel`: ownership/path classification
 - `ccc_companion_reader`: lightweight read-only tool-routed work
 - `ccc_companion_operator`: lightweight mutation/operator-side work
+
+When routing trace selects a route-backed companion owner, keep the work out of the captain session unless a fallback/degradation reason is recorded. Git and `gh` reads belong to `ccc_companion_reader`; git and `gh` mutations belong to `ccc_companion_operator`.
 
 Do not route to generic helper agents when a matching CCC specialist exists.
 Captain owns LongWay updates, lifecycle recording, fan-in, validation, and commit boundaries. Direct captain edits are fallback only or genuinely trivial operator-side fixes.
@@ -95,3 +101,4 @@ Captain owns LongWay updates, lifecycle recording, fan-in, validation, and commi
 - `arbiter` is optional; use it only for real risk, ambiguity, failed tests, or release-critical judgment.
 - Stored LongWay text should stay English; answer the operator in their language.
 - If the operator references external file paths outside the workspace, keep those exact paths in scope when sandbox-readable; if blocked, return the exact blocked path and required approval instead of broad "workspace-only" wording.
+- When a request is backed by a release note, plan, checklist, or `.md` file and asks to finish the work, derive the remaining checklist from that source and continue through CCC until the documented completion criteria are satisfied, explicitly out of scope, or blocked.
