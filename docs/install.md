@@ -67,7 +67,7 @@ ccc check-install
 
 If a new `$cap` request arrives while an earlier run or subagent is still active, CCC surfaces the active run and recommends merge, replan, or reclaim handling.
 
-Because host custom subagents cannot always be forcibly canceled by CCC, captain should treat stale work as reclaimed or merged and continue from the combined latest request.
+Because host custom subagents cannot always be forcibly canceled by CCC, captain should treat stale work as reclaimed or merged and continue from the combined latest request. CCC canonicalizes unsatisfactory or needs-work results into bounded specialist follow-ups, and the captain should not do local repair when CCC can route the repair or reassignment through a specialist.
 
 Host Codex as captain owns LongWay, routing, lifecycle, fan-in, review, validation, and commit boundaries. Ordinary read-only investigation, docs edits, code/config mutation, and review judgment should go to `ccc_scout`, `ccc_scribe`, `ccc_raider`, and `ccc_arbiter` via custom subagents when available; direct captain work stays limited to explicit fallback, trivial operator-side fixes, or recorded CCC degradation. Route-backed lightweight filesystem/docs/fetch/git/gh work should use the configured companion owner: git and `gh` reads go to `companion_reader`, and git or `gh` mutations go to `companion_operator` unless the captain records fallback/degradation.
 

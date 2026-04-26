@@ -76,3 +76,5 @@ CCC を日常的に使う場合は、ChatGPT Pro $100 plan を開始点として
 | `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `high` | 低コストの git/gh 変更と狭い tool 実行 |
 
 `gpt-5.5` は ChatGPT 認証の Codex で高価値ロールに推奨されるモデルです。現在のアカウントや実行経路でまだ利用できない場合、そのロールは rollout が届くまで `gpt-5.4` を使います。
+
+サブエージェント結果が unsatisfactory または needs-work の場合、CCC はそれを bounded specialist follow-up に正規化し、可能であれば local captain repair よりも specialist 経由の repair や reassignment を優先します。
