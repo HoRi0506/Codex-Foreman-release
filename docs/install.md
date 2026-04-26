@@ -2,7 +2,7 @@
 
 Use this guide for the Rust-only `0.0.5-pre` release bundle.
 
-> Pre-release notice: `0.0.5-pre` is still a pre-release. macOS is the primary verified path. Linux and Windows install/run surfaces are included, but they may not work reliably in every environment yet.
+> Pre-release notice: `0.0.5-pre` is still a pre-release. The published pre-release asset is currently `darwin-arm64`; Linux, Windows, and other platform assets are not published for this pre-release yet.
 
 ## Quick Install & Update
 
