@@ -17,7 +17,9 @@ if ! command -v rg >/dev/null 2>&1; then
   exit 1
 fi
 
-if rg -n -i "${EXCLUDES[@]}" "$PATTERN" "$REPO_ROOT"; then
+cd "$REPO_ROOT"
+
+if rg -n -i "${EXCLUDES[@]}" "$PATTERN" .; then
   echo "Sensitive-string scan failed. Remove the matched private path, secret-like value, or internal-only reference before release." >&2
   exit 1
 fi

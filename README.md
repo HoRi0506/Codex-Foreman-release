@@ -10,9 +10,9 @@
   <img src="./docs/assets/ccc-banner.png" alt="CCC Codex-Cli-Captain banner" width="100%">
 </p>
 
-Current public release: `0.0.4`.
+Current public release: `0.0.5-pre`.
 
-> Beta notice: `0.0.4` is still a beta release. macOS is the primary verified path. Linux and Windows install/run surfaces are included, but they may not work reliably in every environment yet.
+> Pre-release notice: `0.0.5-pre` is still a pre-release. macOS is the primary verified path. Linux and Windows install/run surfaces are included, but they may not work reliably in every environment yet.
 
 Codex CLI is already smart. Want to use that intelligence with a little more structure? New higher-budget plans are here, and your work deserves a captain that spends that budget on a reasonable path, not random wandering. Welcome to CCC: add `$cap` to your request, and Codex-Cli-Captain will guide the work through a captain-led process before returning the result.
 
@@ -79,4 +79,12 @@ For regular CCC use, ChatGPT Pro $100 is the recommended starting plan because `
 
 ## Release Note
 
-- [`docs/release/notes/v0.0.4.md`](./docs/release/notes/v0.0.4.md): current public release card body
+- [`docs/release/notes/v0.0.5.md`](./docs/release/notes/v0.0.5.md): pre-release card body
+
+## 0.0.5 Pre-Release Planning
+
+The source repo is preparing `0.0.5-pre` around the captain-constrained MCP control plane, no-mutation preflight, and reducing `$cap` toward bootstrap guidance. Keep this release repo on `0.0.5-pre` until that pre-release runtime, docs, and validation are ready to publish.
+
+The pre-release card body lives at `docs/release/notes/v0.0.5.md`. The public release tree keeps `share/skills/cap/SKILL.md` as a thin placeholder; `scripts/build-release-asset.sh` swaps in the authoritative skill from the source repo when it builds an installable asset, so browsing the release repo no longer exposes the full installable skill text.
+
+The release-repo history rewrite decision remains deferred until an explicit release-operator call.

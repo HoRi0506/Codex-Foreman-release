@@ -4,6 +4,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 MANIFEST_PATH="${REPO_ROOT}/release-repo-manifest.json"
+SOURCE_SKILL_PATH="${CCC_SKILL_SOURCE_PATH:-${REPO_ROOT}/../Codex-Cli-Captain/skills/cap/SKILL.md}"
 PRINT_ASSET="${CCC_PRINT_ASSET:-}"
 SUPPORTED_PLATFORMS="darwin-arm64 darwin-x86_64 linux-arm64 linux-x86_64 windows-x86_64 windows-arm64"
 
@@ -52,6 +53,12 @@ if [ "${PRINT_ASSET}" = "1" ]; then
   exit 0
 fi
 
+if [ ! -f "${SOURCE_SKILL_PATH}" ] || [ ! -s "${SOURCE_SKILL_PATH}" ]; then
+  echo "Missing authoritative source skill: ${SOURCE_SKILL_PATH}" >&2
+  echo "Set CCC_SKILL_SOURCE_PATH if the source repo lives outside the default sibling path." >&2
+  exit 1
+fi
+
 need_cmd tar
 need_cmd mktemp
 
@@ -78,6 +85,9 @@ for entry in README.md README.ko.md README.ja.md install.sh install.ps1 release-
     cp -R "${REPO_ROOT}/${entry}" "${STAGE_DIR}/${entry}"
   fi
 done
+
+mkdir -p "${STAGE_DIR}/share/skills/cap"
+cp "${SOURCE_SKILL_PATH}" "${STAGE_DIR}/share/skills/cap/SKILL.md"
 
 if command -v strip >/dev/null 2>&1; then
   if strip "${STAGE_DIR}/bin/ccc" >/dev/null 2>&1 || strip -x "${STAGE_DIR}/bin/ccc" >/dev/null 2>&1; then
