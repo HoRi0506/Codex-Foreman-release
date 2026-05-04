@@ -15,16 +15,6 @@ Put <code>$cap</code> in front of the task, and CCC will manage the plan, task c
 
 Current public release: `0.0.11-pre`.
 
-## Pre-Release Note
-
-`0.0.11-pre` is a public pre-release. macOS is the primary supported path, with macOS arm64 locally tested. Linux and Windows assets are available for early testing, but should still be treated as less verified on this maintainer machine because their binaries can be packaged here but not run-validated here.
-
-If you need the previous pre-release:
-
-```text
-CCC_VERSION=v0.0.10-pre
-```
-
 ## Install
 
 macOS or Linux:
@@ -95,23 +85,3 @@ For regular CCC use, ChatGPT Pro $100 is the recommended starting plan because `
 | `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `medium` | Low-cost bounded git/gh mutation and narrow tool work |
 
 `gpt-5.5` is recommended for the high-value roles when Codex is signed in with ChatGPT. If it is unavailable in the current account or execution path, use `gpt-5.4` for those roles until rollout reaches that path.
-
-## 0.0.11-pre Scope
-
-This release introduces the CCC walking-skeleton flow around planning, execution, task cards, checklist/status/fan-in truth, and restart handoff. It is not a full parity or rebuild-complete release.
-
-Deferred hardening includes intervention/review-retry-replan-reclaim parity, schema contract promotion, setup config surface cleanup, and full runtime parity.
-
-## Codex App And CLI Visibility
-
-CCC exposes transcript-readable status for both Codex CLI and Codex app usage. `ccc status`, `ccc activity`, and the MCP status payload include LongWay progress, the current task card, specialist/subagent lane state, fan-in readiness, blockers, next captain action, context-health warnings, restart handoff, and compact cost-routing visibility.
-
-Use `ccc status --app-panel --text` when you want a short LongWay/status panel in the Codex app transcript without scanning the full JSON payload. MCP Apps hosts that render result components can call `ccc_render_app_panel`, which advertises `ui://ccc/app-panel.html` through `_meta.ui.resourceUri` and `_meta["openai/outputTemplate"]`. If native component rendering is unavailable, use `ccc status --app-panel --artifact` to write run-local `CCC_LONGWAY_PANEL.md` and `CCC_LONGWAY_PANEL.json` artifacts under `temp-artifacts/app-panel/`.
-
-CCC cannot force a persistent Codex app sidebar by itself; a host app panel must render or poll the CCC status/activity payload or display the artifact fallback.
-
-Visibility-only smoke, install, and status checks route as read-only diagnostics, so they should not create review-gate or assignment-drift warnings by themselves.
-
-## Optional Tolaria Mirrors
-
-CCC remains local-first. When Tolaria is installed and configured, CCC can mirror the repo code graph and repo-scoped CCC memory into the Tolaria vault so graph and memory context can be searched or restored later. If Tolaria is absent or unconfigured, CCC keeps the existing local `.ccc/graph/store.json` and `.ccc/memory.json` behavior.

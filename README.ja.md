@@ -15,16 +15,6 @@
 
 現在の公開バージョン: `0.0.11-pre`.
 
-## プレリリース案内
-
-`0.0.11-pre` は公開プレリリースです。macOS が主なサポート対象で、macOS arm64 はローカルでインストールと動作を確認済みです。Linux と Windows の asset も提供していますが、この maintainer PC では packaging までで実行検証はできないため、初期テスト経路として扱ってください。
-
-以前のプレリリースが必要な場合:
-
-```text
-CCC_VERSION=v0.0.10-pre
-```
-
 ## インストール
 
 macOS または Linux:
@@ -95,23 +85,3 @@ CCC を日常的に使う場合は、ChatGPT Pro $100 plan を開始点として
 | `companion_operator` | `companion_operator` | `gpt-5.4-mini` | `medium` | 低コストの git/gh 変更と狭い tool 実行 |
 
 `gpt-5.5` は ChatGPT 認証の Codex で高価値ロールに推奨されるモデルです。現在のアカウントや実行経路でまだ利用できない場合、そのロールは rollout が届くまで `gpt-5.4` を使います。
-
-## 0.0.11-pre の範囲
-
-このリリースは planning、execution、task card、checklist/status/fan-in truth、restart handoff を中心に CCC walking skeleton flow を提供します。Full parity や rebuild 完了のリリースではありません。
-
-Intervention/review-retry-replan-reclaim parity、schema contract promotion、setup config surface cleanup、full runtime parity は follow-up hardening として残っています。
-
-## Codex App And CLI Visibility
-
-CCC は Codex CLI と Codex app の両方で読める status 出力を提供します。`ccc status`、`ccc activity`、MCP status payload には LongWay progress、current task card、specialist/subagent lane state、fan-in readiness、blocker、next captain action、context-health warning、restart handoff、compact cost-routing visibility が含まれます。
-
-Full JSON を読まずに Codex app transcript 内で短い LongWay/status panel だけを見たい場合は `ccc status --app-panel --text` を使います。MCP Apps result component を render する host では `ccc_render_app_panel` を呼び出せます。この tool は `_meta.ui.resourceUri` と `_meta["openai/outputTemplate"]` で `ui://ccc/app-panel.html` を公開します。Native component rendering が使えない場合は、`ccc status --app-panel --artifact` で run-local `temp-artifacts/app-panel/` に `CCC_LONGWAY_PANEL.md` と `CCC_LONGWAY_PANEL.json` artifact を作成できます。
-
-CCC MCP server が Codex app sidebar を直接強制表示することはできません。host app panel が CCC status/activity payload を render または polling するか、artifact fallback を表示する必要があります。
-
-Visibility-only smoke、install、status check は read-only diagnostic として routing されるため、それだけで review gate や assignment-drift warning を作らない想定です。
-
-## Optional Tolaria Mirrors
-
-CCC は local-first で動作します。Tolaria がインストールされ設定されている場合、CCC code graph と repo-scoped CCC memory を Tolaria vault に mirror し、後で検索または復元できます。Tolaria がない、または未設定の場合は、従来どおり local `.ccc/graph/store.json` と `.ccc/memory.json` を使用します。
