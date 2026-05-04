@@ -104,7 +104,9 @@ Intervention/review-retry-replan-reclaim parity、schema contract promotion、se
 
 ## Codex App And CLI Visibility
 
-CCC は Codex CLI と Codex app の両方で読める status 出力を提供します。`ccc status`、`ccc activity`、MCP status payload には LongWay progress、current task card、specialist/subagent lane state、fan-in readiness、blocker、next captain action、context-health warning、restart handoff、compact cost-routing visibility が含まれます。CCC MCP server が Codex app sidebar を直接強制表示することはできません。host app panel が CCC status/activity payload を render または polling する必要があります。
+CCC は Codex CLI と Codex app の両方で読める status 出力を提供します。`ccc status`、`ccc activity`、MCP status payload には LongWay progress、current task card、specialist/subagent lane state、fan-in readiness、blocker、next captain action、context-health warning、restart handoff、compact cost-routing visibility が含まれます。Full JSON を読まずに Codex app transcript 内で短い LongWay/status panel だけを見たい場合は `ccc status --app-panel --text` を使います。CCC MCP server が Codex app sidebar を直接強制表示することはできません。host app panel が CCC status/activity payload を render または polling する必要があります。
+
+Visibility-only smoke、install、status check は read-only diagnostic として routing されるため、それだけで review gate や assignment-drift warning を作らない想定です。
 
 ## Optional Tolaria Mirrors
 

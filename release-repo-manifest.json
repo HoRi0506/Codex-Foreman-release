@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-04T03:35:00Z",
+  "generated_at": "2026-05-04T04:58:12Z",
   "package_name": "ccc",
   "package_version": "0.0.11-pre",
   "platform": "darwin-arm64",
@@ -13,8 +13,8 @@
   "public_entry_skill_name": "cap",
   "public_entry_label": "$cap",
   "release_card": {
-    "source_repo_docs_commit": "5646beac18a24037b9a95c0be823b68b7267701b",
-    "summary": "0.0.11-pre is a walking skeleton plus follow-up hardening release with app/CLI visibility, optional Tolaria mirrors, and branch consolidation recorded.",
+    "source_repo_docs_commit": "b7397037902d455bf7eaa7d1cd01a08b59a963b9",
+    "summary": "0.0.11-pre is a walking skeleton plus follow-up hardening release with app/CLI visibility fallback, diagnostic smoke routing, optional Tolaria mirrors, and branch consolidation recorded.",
     "public_entrypoint": "$cap",
     "host_affordances": [
       "/plan",
@@ -27,16 +27,18 @@
       "checklist/status/fan-in truth",
       "restart handoff",
       "Codex app/CLI status payload",
+      "ccc status --app-panel fallback",
+      "visibility diagnostic smoke routing",
       "optional Tolaria graph and memory mirrors"
     ],
     "validation": [
-      "source repo main pushed at 5646bea",
+      "source repo main pushed at b739703",
       "cargo fmt --check passed",
-      "cargo test -- --nocapture passed with 221 tests",
+      "cargo test -p ccc --offline passed with 222 tests",
       "cargo build passed",
       "branch cleanup leaves only main and origin/main",
-      "darwin arm64, darwin x86_64, and windows x86_64 tarballs refreshed on 2026-05-04",
-      "Linux tarballs are package-verifiable on macOS but require Linux host validation"
+      "darwin arm64, darwin x86_64, linux arm64, linux x86_64, and windows x86_64 tarballs refreshed on 2026-05-04",
+      "macOS packaged binaries report 0.0.11-pre; Linux and Windows assets are package-verifiable on macOS but require native host validation"
     ],
     "deferred": [
       "Loop 5 Intervention / Review-retry-replan-reclaim parity projection",
