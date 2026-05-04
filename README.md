@@ -10,8 +10,11 @@
   <img src="./docs/assets/ccc-banner.png" alt="CCC Codex-Cli-Captain banner" width="100%">
 </p>
 
-<p align="center"><em>Use CCC when you want Codex CLI to keep long work organized.<br>
-Put <code>$cap</code> in front of the task, and CCC will manage the plan, task cards, fan-in, status, and restart handoff.</em></p>
+<p align="center"><em>Want to run Codex CLI or Codex App end-to-end?<br>
+Worried about running the whole thing on high-end models?<br>
+Then how about using CCC?<br>
+Just put <code>$cap</code> in front of what you want to do.<br>
+Then something remarkable can unfold.</em></p>
 
 Current public release: `0.0.11-pre`.
 

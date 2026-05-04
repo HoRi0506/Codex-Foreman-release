@@ -10,8 +10,11 @@
   <img src="./docs/assets/ccc-banner.png" alt="CCC Codex-Cli-Captain banner" width="100%">
 </p>
 
-<p align="center"><em>Codex CLI에서 긴 작업을 안정적으로 이어가고 싶을 때 CCC를 사용하세요.<br>
-요청 앞에 <code>$cap</code>을 붙이면 CCC가 계획, task card, fan-in, status, restart handoff를 관리합니다.</em></p>
+<p align="center"><em>Codex CLI나 Codex App으로 end-to-end로 하고 싶으시다구요?<br>
+그런데 고사양 모델로 end-to-end를 돌리는 건 걱정된다구요?<br>
+그렇다면 CCC를 이용해보시는 건 어떨까요?<br>
+여러분은 그저 하고자 하는 것 앞에 <code>$cap</code>만 붙이면 됩니다.<br>
+그러면 놀라운 일이 펼쳐질 거예요!</em></p>
 
 현재 공개 버전: `0.0.11-pre`.
 
