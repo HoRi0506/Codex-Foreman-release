@@ -17,7 +17,7 @@ Current public release: `0.0.11-pre`.
 
 ## Pre-Release Note
 
-`0.0.11-pre` is a public pre-release. macOS is the primary supported path, with macOS arm64 locally tested. Linux and Windows assets are available for early testing, but should still be treated as less verified.
+`0.0.11-pre` is a public pre-release. macOS is the primary supported path, with macOS arm64 locally tested. Linux and Windows assets are available for early testing, but should still be treated as less verified on this maintainer machine because their binaries can be packaged here but not run-validated here.
 
 If you need the previous pre-release:
 
@@ -101,3 +101,11 @@ For regular CCC use, ChatGPT Pro $100 is the recommended starting plan because `
 This release introduces the CCC walking-skeleton flow around planning, execution, task cards, checklist/status/fan-in truth, and restart handoff. It is not a full parity or rebuild-complete release.
 
 Deferred hardening includes intervention/review-retry-replan-reclaim parity, schema contract promotion, setup config surface cleanup, and full runtime parity.
+
+## Codex App And CLI Visibility
+
+CCC exposes transcript-readable status for both Codex CLI and Codex app usage. `ccc status`, `ccc activity`, and the MCP status payload include LongWay progress, the current task card, specialist/subagent lane state, fan-in readiness, blockers, next captain action, context-health warnings, restart handoff, and compact cost-routing visibility. CCC cannot force a persistent Codex app sidebar by itself; a host app panel must render or poll the CCC status/activity payload.
+
+## Optional Tolaria Mirrors
+
+CCC remains local-first. When Tolaria is installed and configured, CCC can mirror the repo code graph and repo-scoped CCC memory into the Tolaria vault so graph and memory context can be searched or restored later. If Tolaria is absent or unconfigured, CCC keeps the existing local `.ccc/graph/store.json` and `.ccc/memory.json` behavior.

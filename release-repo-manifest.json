@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-03T15:28:00Z",
+  "generated_at": "2026-05-04T03:35:00Z",
   "package_name": "ccc",
   "package_version": "0.0.11-pre",
   "platform": "darwin-arm64",
@@ -13,8 +13,8 @@
   "public_entry_skill_name": "cap",
   "public_entry_label": "$cap",
   "release_card": {
-    "source_repo_docs_commit": "a92d25f2f73d5be06c96a150a0016d1cc48d3cbc",
-    "summary": "0.0.11-pre is a walking skeleton plus follow-up hardening release, not full parity or rebuild completion.",
+    "source_repo_docs_commit": "5646beac18a24037b9a95c0be823b68b7267701b",
+    "summary": "0.0.11-pre is a walking skeleton plus follow-up hardening release with app/CLI visibility, optional Tolaria mirrors, and branch consolidation recorded.",
     "public_entrypoint": "$cap",
     "host_affordances": [
       "/plan",
@@ -25,12 +25,18 @@
       "EXECUTE_SEQUENCE",
       "pending LongWay approval",
       "checklist/status/fan-in truth",
-      "restart handoff"
+      "restart handoff",
+      "Codex app/CLI status payload",
+      "optional Tolaria graph and memory mirrors"
     ],
     "validation": [
-      "source repo PR #2-#7 merged",
-      "cargo test -p ccc passed in final slices",
-      "release-facing source docs merged"
+      "source repo main pushed at 5646bea",
+      "cargo fmt --check passed",
+      "cargo test -- --nocapture passed with 221 tests",
+      "cargo build passed",
+      "branch cleanup leaves only main and origin/main",
+      "darwin arm64, darwin x86_64, and windows x86_64 tarballs refreshed on 2026-05-04",
+      "Linux tarballs are package-verifiable on macOS but require Linux host validation"
     ],
     "deferred": [
       "Loop 5 Intervention / Review-retry-replan-reclaim parity projection",

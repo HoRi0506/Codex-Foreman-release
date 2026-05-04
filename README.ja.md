@@ -17,7 +17,7 @@
 
 ## プレリリース案内
 
-`0.0.11-pre` は公開プレリリースです。macOS が主なサポート対象で、macOS arm64 はローカルでインストールと動作を確認済みです。Linux と Windows の asset も提供していますが、まだ初期テスト経路として扱ってください。
+`0.0.11-pre` は公開プレリリースです。macOS が主なサポート対象で、macOS arm64 はローカルでインストールと動作を確認済みです。Linux と Windows の asset も提供していますが、この maintainer PC では packaging までで実行検証はできないため、初期テスト経路として扱ってください。
 
 以前のプレリリースが必要な場合:
 
@@ -101,3 +101,11 @@ CCC を日常的に使う場合は、ChatGPT Pro $100 plan を開始点として
 このリリースは planning、execution、task card、checklist/status/fan-in truth、restart handoff を中心に CCC walking skeleton flow を提供します。Full parity や rebuild 完了のリリースではありません。
 
 Intervention/review-retry-replan-reclaim parity、schema contract promotion、setup config surface cleanup、full runtime parity は follow-up hardening として残っています。
+
+## Codex App And CLI Visibility
+
+CCC は Codex CLI と Codex app の両方で読める status 出力を提供します。`ccc status`、`ccc activity`、MCP status payload には LongWay progress、current task card、specialist/subagent lane state、fan-in readiness、blocker、next captain action、context-health warning、restart handoff、compact cost-routing visibility が含まれます。CCC MCP server が Codex app sidebar を直接強制表示することはできません。host app panel が CCC status/activity payload を render または polling する必要があります。
+
+## Optional Tolaria Mirrors
+
+CCC は local-first で動作します。Tolaria がインストールされ設定されている場合、CCC code graph と repo-scoped CCC memory を Tolaria vault に mirror し、後で検索または復元できます。Tolaria がない、または未設定の場合は、従来どおり local `.ccc/graph/store.json` と `.ccc/memory.json` を使用します。
