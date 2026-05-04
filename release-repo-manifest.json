@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-04T04:58:12Z",
+  "generated_at": "2026-05-04T06:01:00Z",
   "package_name": "ccc",
   "package_version": "0.0.11-pre",
   "platform": "darwin-arm64",
@@ -13,8 +13,8 @@
   "public_entry_skill_name": "cap",
   "public_entry_label": "$cap",
   "release_card": {
-    "source_repo_docs_commit": "b7397037902d455bf7eaa7d1cd01a08b59a963b9",
-    "summary": "0.0.11-pre is a walking skeleton plus follow-up hardening release with app/CLI visibility fallback, diagnostic smoke routing, optional Tolaria mirrors, and branch consolidation recorded.",
+    "source_repo_docs_commit": "9c3ae42608d90a73a29132c4908f2656432e97c3",
+    "summary": "0.0.11-pre is a walking skeleton plus follow-up hardening release with app/CLI visibility fallback, MCP app-panel render metadata, diagnostic smoke routing, optional Tolaria mirrors, and branch consolidation recorded.",
     "public_entrypoint": "$cap",
     "host_affordances": [
       "/plan",
@@ -28,14 +28,17 @@
       "restart handoff",
       "Codex app/CLI status payload",
       "ccc status --app-panel fallback",
+      "ccc_render_app_panel MCP Apps render surface",
+      "ccc status --app-panel --artifact fallback",
       "visibility diagnostic smoke routing",
       "optional Tolaria graph and memory mirrors"
     ],
     "validation": [
-      "source repo main pushed at b739703",
+      "source repo main pushed at 9c3ae42",
       "cargo fmt --check passed",
-      "cargo test -p ccc --offline passed with 222 tests",
+      "cargo test -p ccc passed with 223 tests",
       "cargo build passed",
+      "app-panel artifact smoke created CCC_LONGWAY_PANEL.md and CCC_LONGWAY_PANEL.json",
       "branch cleanup leaves only main and origin/main",
       "darwin arm64, darwin x86_64, linux arm64, linux x86_64, and windows x86_64 tarballs refreshed on 2026-05-04",
       "macOS packaged binaries report 0.0.11-pre; Linux and Windows assets are package-verifiable on macOS but require native host validation"

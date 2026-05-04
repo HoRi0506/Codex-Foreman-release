@@ -104,7 +104,11 @@ Intervention/review-retry-replan-reclaim parity、schema contract promotion、se
 
 ## Codex App And CLI Visibility
 
-CCC は Codex CLI と Codex app の両方で読める status 出力を提供します。`ccc status`、`ccc activity`、MCP status payload には LongWay progress、current task card、specialist/subagent lane state、fan-in readiness、blocker、next captain action、context-health warning、restart handoff、compact cost-routing visibility が含まれます。Full JSON を読まずに Codex app transcript 内で短い LongWay/status panel だけを見たい場合は `ccc status --app-panel --text` を使います。CCC MCP server が Codex app sidebar を直接強制表示することはできません。host app panel が CCC status/activity payload を render または polling する必要があります。
+CCC は Codex CLI と Codex app の両方で読める status 出力を提供します。`ccc status`、`ccc activity`、MCP status payload には LongWay progress、current task card、specialist/subagent lane state、fan-in readiness、blocker、next captain action、context-health warning、restart handoff、compact cost-routing visibility が含まれます。
+
+Full JSON を読まずに Codex app transcript 内で短い LongWay/status panel だけを見たい場合は `ccc status --app-panel --text` を使います。MCP Apps result component を render する host では `ccc_render_app_panel` を呼び出せます。この tool は `_meta.ui.resourceUri` と `_meta["openai/outputTemplate"]` で `ui://ccc/app-panel.html` を公開します。Native component rendering が使えない場合は、`ccc status --app-panel --artifact` で run-local `temp-artifacts/app-panel/` に `CCC_LONGWAY_PANEL.md` と `CCC_LONGWAY_PANEL.json` artifact を作成できます。
+
+CCC MCP server が Codex app sidebar を直接強制表示することはできません。host app panel が CCC status/activity payload を render または polling するか、artifact fallback を表示する必要があります。
 
 Visibility-only smoke、install、status check は read-only diagnostic として routing されるため、それだけで review gate や assignment-drift warning を作らない想定です。
 

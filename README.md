@@ -104,7 +104,11 @@ Deferred hardening includes intervention/review-retry-replan-reclaim parity, sch
 
 ## Codex App And CLI Visibility
 
-CCC exposes transcript-readable status for both Codex CLI and Codex app usage. `ccc status`, `ccc activity`, and the MCP status payload include LongWay progress, the current task card, specialist/subagent lane state, fan-in readiness, blockers, next captain action, context-health warnings, restart handoff, and compact cost-routing visibility. Use `ccc status --app-panel --text` when you want a short LongWay/status panel in the Codex app transcript without scanning the full JSON payload. CCC cannot force a persistent Codex app sidebar by itself; a host app panel must render or poll the CCC status/activity payload.
+CCC exposes transcript-readable status for both Codex CLI and Codex app usage. `ccc status`, `ccc activity`, and the MCP status payload include LongWay progress, the current task card, specialist/subagent lane state, fan-in readiness, blockers, next captain action, context-health warnings, restart handoff, and compact cost-routing visibility.
+
+Use `ccc status --app-panel --text` when you want a short LongWay/status panel in the Codex app transcript without scanning the full JSON payload. MCP Apps hosts that render result components can call `ccc_render_app_panel`, which advertises `ui://ccc/app-panel.html` through `_meta.ui.resourceUri` and `_meta["openai/outputTemplate"]`. If native component rendering is unavailable, use `ccc status --app-panel --artifact` to write run-local `CCC_LONGWAY_PANEL.md` and `CCC_LONGWAY_PANEL.json` artifacts under `temp-artifacts/app-panel/`.
+
+CCC cannot force a persistent Codex app sidebar by itself; a host app panel must render or poll the CCC status/activity payload or display the artifact fallback.
 
 Visibility-only smoke, install, and status checks route as read-only diagnostics, so they should not create review-gate or assignment-drift warnings by themselves.
 

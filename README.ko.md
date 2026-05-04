@@ -104,7 +104,11 @@ Intervention/review-retry-replan-reclaim parity, schema contract promotion, setu
 
 ## Codex App And CLI 표시
 
-CCC는 Codex CLI와 Codex app 모두에서 읽을 수 있는 status 출력을 제공합니다. `ccc status`, `ccc activity`, MCP status payload에는 LongWay 진행, 현재 task card, specialist/subagent lane 상태, fan-in readiness, blocker, 다음 captain action, context-health warning, restart handoff, compact cost-routing visibility가 포함됩니다. 전체 JSON을 읽지 않고 Codex app transcript 안에서 짧은 LongWay/status panel만 보고 싶다면 `ccc status --app-panel --text`를 사용합니다. CCC MCP server가 Codex app sidebar를 직접 강제로 띄울 수는 없고, host app panel이 CCC status/activity payload를 렌더링하거나 polling해야 합니다.
+CCC는 Codex CLI와 Codex app 모두에서 읽을 수 있는 status 출력을 제공합니다. `ccc status`, `ccc activity`, MCP status payload에는 LongWay 진행, 현재 task card, specialist/subagent lane 상태, fan-in readiness, blocker, 다음 captain action, context-health warning, restart handoff, compact cost-routing visibility가 포함됩니다.
+
+전체 JSON을 읽지 않고 Codex app transcript 안에서 짧은 LongWay/status panel만 보고 싶다면 `ccc status --app-panel --text`를 사용합니다. MCP Apps result component를 렌더링하는 host라면 `ccc_render_app_panel`을 호출할 수 있고, 이 tool은 `_meta.ui.resourceUri`와 `_meta["openai/outputTemplate"]`로 `ui://ccc/app-panel.html`을 알립니다. Native component rendering이 지원되지 않으면 `ccc status --app-panel --artifact`를 사용해 run-local `temp-artifacts/app-panel/` 아래에 `CCC_LONGWAY_PANEL.md`와 `CCC_LONGWAY_PANEL.json` artifact를 만들 수 있습니다.
+
+CCC MCP server가 Codex app sidebar를 직접 강제로 띄울 수는 없고, host app panel이 CCC status/activity payload를 렌더링하거나 polling하거나 artifact fallback을 표시해야 합니다.
 
 Visibility-only smoke, install, status 확인은 read-only diagnostic으로 라우팅되므로 그 자체로 review gate나 assignment-drift warning을 만들지 않아야 합니다.
 
