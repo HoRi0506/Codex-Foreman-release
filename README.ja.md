@@ -58,9 +58,10 @@ CCC では `$cap` が entrypoint です。LongWay、task card、checklist、fan-
 
 ## Plan And Goal の使い方
 
-`0.0.13-pre` では、Codex host が提供する planning/goal surface を `$cap` と併用できます。
+`0.0.13-pre` では、Codex host が提供する planning/goal surface を `$cap` と併用できますが、planning owner は CCC です。
 
-- 広い、危険、または曖昧な作業では、`$cap` の前に `/plan` を使って依頼を整理します。
+- 広い、危険、または曖昧な作業では、`$cap` で入り、CCC が `PLAN_SEQUENCE` を作成して設定済みの Way agent に planning を任せます。
+- host `/plan` や Plan Mode は外側の affordance として扱います。依頼を整理することはできますが、CCC LongWay planning を置き換えてはいけません。
 - `/goal` は host が対応している場合に、長期目標のヒントとして使えます。ただし実際の作業の基準は CCC の LongWay、checklist、fan-in、status です。
 - 狭い作業では `$cap` だけで十分です。
 

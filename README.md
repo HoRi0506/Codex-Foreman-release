@@ -58,9 +58,10 @@ CCC treats `$cap` as the entrypoint. It owns the LongWay, task cards, checklist,
 
 ## Using Plan And Goal
 
-`0.0.13-pre` can work with host planning and goal surfaces when your Codex path provides them:
+`0.0.13-pre` can work with host planning and goal surfaces when your Codex path provides them, but CCC remains the planning owner:
 
-- Use `/plan` before `$cap` for broad, risky, or ambiguous work. It helps shape the request before CCC creates or executes a LongWay.
+- Invoke `$cap` for broad, risky, or ambiguous work so CCC creates a `PLAN_SEQUENCE` and routes planning to the configured Way agent.
+- Treat host `/plan` or Plan Mode as an outer affordance only. It can frame the request, but it must not replace CCC LongWay planning.
 - Use `/goal` as an outer objective hint when your host supports it. CCC still treats its own LongWay, checklist, fan-in, and status as the source of truth.
 - For narrow work, `$cap` alone is enough.
 

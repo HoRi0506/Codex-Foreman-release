@@ -58,9 +58,10 @@ CCC에서 `$cap`은 진입점입니다. LongWay, task card, checklist, fan-in, s
 
 ## Plan And Goal 활용
 
-`0.0.13-pre`에서는 Codex host가 제공하는 planning/goal 기능을 `$cap`과 함께 보조적으로 사용할 수 있습니다.
+`0.0.13-pre`에서는 Codex host가 제공하는 planning/goal 기능을 `$cap`과 함께 보조적으로 사용할 수 있지만, planning owner는 CCC입니다.
 
-- 넓거나 위험하거나 애매한 작업은 `$cap` 전에 `/plan`을 사용해 요청을 먼저 정리하세요.
+- 넓거나 위험하거나 애매한 작업은 `$cap`으로 진입해 CCC가 `PLAN_SEQUENCE`를 만들고 설정된 Way agent에 planning을 맡기게 하세요.
+- host `/plan`이나 Plan Mode는 바깥쪽 affordance로만 취급하세요. 요청을 정리할 수는 있지만 CCC LongWay planning을 대체하면 안 됩니다.
 - `/goal`은 host가 지원할 때 장기 목표를 기억시키는 힌트로 사용할 수 있습니다. 다만 CCC의 LongWay, checklist, fan-in, status가 실제 작업의 기준입니다.
 - 좁은 작업은 `$cap`만으로 충분합니다.
 
