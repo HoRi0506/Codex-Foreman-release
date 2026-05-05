@@ -19,7 +19,7 @@ $SupportedPlatforms = @(
 )
 
 if ([string]::IsNullOrWhiteSpace($Version)) {
-    $Version = "v0.0.12-pre"
+    $Version = "v0.0.13-pre"
 }
 if ([string]::IsNullOrWhiteSpace($InstallRoot)) {
     $InstallRoot = Join-Path $env:LOCALAPPDATA "ccc"

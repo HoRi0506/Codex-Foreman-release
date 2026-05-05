@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-05-05T06:37:00Z",
+  "generated_at": "2026-05-05T08:25:00Z",
   "package_name": "ccc",
-  "package_version": "0.0.12-pre",
+  "package_version": "0.0.13-pre",
   "platform": "darwin-arm64",
   "supported_platforms": [
     "darwin-arm64",
@@ -13,8 +13,8 @@
   "public_entry_skill_name": "cap",
   "public_entry_label": "$cap",
   "release_card": {
-    "source_repo_docs_commit": "980ed01336c27066de0bec36206558d351b9138d",
-    "summary": "0.0.12-pre hardens CCC structured runtime flow with phase-aware routing, scheduler-owned planned-row materialization, document-root graph and memory resolution, optional SSL skill manifests, Sisyphus harness coverage, compact boxed LongWay progress output, planned-row agent/model/reasoning projection, and compact subagent lifecycle visibility for Codex App and CLI fallback surfaces.",
+    "source_repo_docs_commit": "pending-0.0.13-pre",
+    "summary": "0.0.13-pre promotes optional SSL manifests into a bounded Skill Registry evidence layer, adds Way clarification interviews, improves App/CLI metadata-source visibility, and packages managed-agent SSL manifests with release assets.",
     "public_entrypoint": "$cap",
     "host_affordances": [
       "/plan",
@@ -29,7 +29,9 @@
       "phase-aware route validation",
       "document-root target workspace resolution",
       "repo/document graph and memory target selection",
-      "optional SSL skill manifest routing/risk evidence",
+      "Skill Registry routing/risk/planning evidence",
+      "managed-agent SSL manifest package coverage",
+      "Way clarification interview loop",
       "Codex app/CLI boxed LongWay status fallback",
       "progress-gauge checklist projection",
       "planned-row subagent/model/reasoning projection",
@@ -39,31 +41,29 @@
       "restart handoff"
     ],
     "validation": [
-      "source repo main prepared at 980ed01",
-      "cargo fmt --check -p ccc passed",
-      "cargo test -p ccc passed with 242 tests",
-      "Sisyphus diagram conformance test covers PLAN_SEQUENCE, approval, scheduler materialization, route, fan-in, app-panel artifacts, completion, terminal scheduler, and restart handoff",
-      "target workspace tests cover git roots, structured mentions, document roots, markdown/file paths with spaces, and ambiguous root confirmation",
-      "app-panel tests cover compact progress gauge, checklist, planned-row agent/model/reasoning projection, latest artifacts, and subagent lifecycle visibility",
-      "skill SSL manifest tests cover optional manifest parsing and non-blocking invalid/missing fallback",
-      "release-target cargo build passed for darwin arm64, darwin x86_64, linux arm64, linux x86_64, and windows x86_64 from source commit 980ed01",
-      "scripts/release/verify-release-asset-matrix.sh passed for 5 assets",
-      "extracted darwin arm64 asset reports 0.0.12-pre and renders the boxed CCC LongWay progress panel",
+      "cargo fmt passed",
+      "cargo test passed with 251 tests",
+      "Skill Registry and SSL manifest tests cover managed-agent manifest coverage, missing/invalid fallback, stale version, and skill_id drift",
+      "routing tests cover registry-backed Scheduling evidence and display metadata source labels",
+      "review-policy tests cover registry-backed Logical risk precheck and Arbiter ownership for high-risk work",
+      "Way tests cover Structural planning context, persisted clarification requests, and one-time answer consumption",
+      "app-panel tests cover planned-row source labels and compact target-root retry commands",
+      "release script checks passed for bash syntax, builder asset-name smoke, and temporary package extraction with all 8 SSL manifests",
+      "release-target cargo builds passed for darwin arm64, darwin x86_64, linux arm64, linux x86_64, and windows x86_64",
+      "scripts/release/verify-release-asset-matrix.sh passed for 5 assets and packaged SSL manifest coverage",
       "PowerShell was unavailable on the maintainer macOS host, so Windows install smoke used static install.ps1 surface checks",
       "Linux and Windows assets are package-verifiable on macOS but require native runtime validation on their target OSes"
     ],
     "deferred": [
       "native Codex App right progress panel mounting remains host-owned",
-      "0.0.13 SSL-backed Skill Registry promotion decision after 0.0.12 evidence",
-      "full runtime parity projection",
-      "schema contract promotion"
+      "Linux and Windows native runtime validation remains target-OS dependent"
     ],
     "asset_digests": {
-      "ccc-0.0.12-pre-darwin-arm64.tar.gz": "1d46c3ebb599deb1c41df147822cb7e7835c1f05a9a0dc41e22f63a82080a9a6",
-      "ccc-0.0.12-pre-darwin-x86_64.tar.gz": "e5420f89ad71957e8a50daf69756890d44672f103b081e07000eb4d791a297be",
-      "ccc-0.0.12-pre-linux-arm64.tar.gz": "8b1b6766334a8a13c389265fc36951d041dd781743bb113e6b3817a6a50bed8d",
-      "ccc-0.0.12-pre-linux-x86_64.tar.gz": "f7c0e055269d4da2fd9ab7a685e83cd981a019e18fb0e1f665089c30c7dd22fc",
-      "ccc-0.0.12-pre-windows-x86_64.tar.gz": "7c0ffe0865efb6dfbde8c3a6ae657279e064747a840a5fc6a3a4413ace558f45"
+      "ccc-0.0.13-pre-darwin-arm64.tar.gz": "09c2b8b78d950a1f4f6d16d978f3d76af4c67baab13123be4f86440b004ac82f",
+      "ccc-0.0.13-pre-darwin-x86_64.tar.gz": "2ec4f48e73910b09a1451af8006d7c9d1839422e0ca55e30d7627b767b4fa55b",
+      "ccc-0.0.13-pre-linux-arm64.tar.gz": "b62d426dc214004f9a57885f649b883157cf92adf379b4539881b612302ac0fe",
+      "ccc-0.0.13-pre-linux-x86_64.tar.gz": "b059067b98e69629267c2b022dc3f64defcc194ab566f2a0406d86a2b5fa57f1",
+      "ccc-0.0.13-pre-windows-x86_64.tar.gz": "e9a21b6bb2d6ba6dabc8aee7d7ec6a7002cdf8c4352ea53a2af196b0375195b1"
     }
   },
   "managed_paths": [
