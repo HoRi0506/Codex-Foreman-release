@@ -18,6 +18,8 @@ Then something remarkable can unfold.</em></p>
 
 Current public release: `0.0.13-pre`.
 
+Supported platforms: `darwin-arm64`, `darwin-x86_64`, `linux-arm64`, `linux-x86_64`, `windows-x86_64`.
+
 ## Install
 
 macOS or Linux:
@@ -56,21 +58,29 @@ $cap Refactor the auth flow and keep tests passing
 
 CCC treats `$cap` as the entrypoint. It owns the LongWay, task cards, checklist, fan-in, status, and restart handoff for the work.
 
-## Using Plan And Goal
+## v0.0.13-pre Behavior
 
-`0.0.13-pre` can work with host planning and goal surfaces when your Codex path provides them, but CCC remains the planning owner:
+- `$cap` is the public entrypoint.
+- Operator-visible lifecycle changes should prefer quiet `ran` commands such as `ccc start --quiet --json-file`, `ccc orchestrate --quiet --json-file`, `ccc subagent-update --quiet --json-file`, `ccc memory --quiet --json-file`, `ccc checklist --quiet --json-file`, and `ccc status --quiet --json-file`; `ccc status --text --json-file` is the compact transcript path.
+- `ccc checklist` and `ccc status` should stay concise. LongWay rows are short operator-facing summaries.
+- Configured `ccc_*` custom agents are the default specialist targets. Generic `worker` and `explorer` labels are invalid unless the operator explicitly overrides them.
+- `ccc memory` is opt-in and unconfigured by default.
+- The SSL Skill Registry is available as bounded evidence for routing, planning, and review; it does not replace persisted run state.
+- Mutation completion waits for specialist fan-in, and arbiter review remains the final gate for review-sensitive changes.
+
+## Planning
+
+`$cap` is the CCC entrypoint. Host planning surfaces are not CCC orchestration paths:
 
 - Invoke `$cap` for broad, risky, or ambiguous work so CCC creates a `PLAN_SEQUENCE` and routes planning to the configured Way agent.
-- Treat host `/plan` or Plan Mode as an outer affordance only. It can frame the request, but it must not replace CCC LongWay planning.
-- Use `/goal` as an outer objective hint when your host supports it. CCC still treats its own LongWay, checklist, fan-in, and status as the source of truth.
+- Host Plan Mode can help frame what you type, but CCC does not trigger it inside Way as a background planning engine.
+- CCC LongWay, task cards, checklist, fan-in, and status remain the source of truth.
 - For narrow work, `$cap` alone is enough.
 
 Example:
 
 ```text
-/plan
-/goal Keep the release documentation user-facing and concise
-$cap Update the release README and record remaining 0.0.13-pre follow-up work
+$cap Plan the release README update, ask any blocking Way questions first, and wait for LongWay approval before changing files
 ```
 
 ## Recommended Role Defaults

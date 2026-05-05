@@ -18,6 +18,8 @@
 
 現在の公開バージョン: `0.0.13-pre`.
 
+サポート対象プラットフォーム: `darwin-arm64`、`darwin-x86_64`、`linux-arm64`、`linux-x86_64`、`windows-x86_64`.
+
 ## インストール
 
 macOS または Linux:
@@ -56,21 +58,29 @@ $cap 認証フローをリファクタリングして、テストが通る状態
 
 CCC では `$cap` が entrypoint です。LongWay、task card、checklist、fan-in、status、restart handoff は CCC が管理します。
 
-## Plan And Goal の使い方
+## `v0.0.13-pre` の動作
 
-`0.0.13-pre` では、Codex host が提供する planning/goal surface を `$cap` と併用できますが、planning owner は CCC です。
+- `$cap` は public entrypoint です。
+- 利用者に見える lifecycle 変更は quiet な `ran` コマンドを優先します: `ccc start --quiet --json-file`、`ccc orchestrate --quiet --json-file`、`ccc subagent-update --quiet --json-file`、`ccc memory --quiet --json-file`、`ccc checklist --quiet --json-file`、`ccc status --quiet --json-file`、`ccc status --text --json-file`。
+- `ccc checklist` と `ccc status` は簡潔に保ちます。LongWay row は短い operator-facing summary です。
+- 設定済みの `ccc_*` custom agent が既定の specialist 対象です。`worker` や `explorer` のような generic label は、operator が明示的に override しない限り無効です。
+- `ccc memory` は opt-in で、既定では unconfigured です。
+- SSL Skill Registry は routing、planning、review 用の bounded evidence として提供され、persisted run state を置き換えません。
+- mutation 完了は specialist fan-in の後に行われ、review-sensitive 変更の最終 gate は arbiter review です。
+
+## Planning
+
+`$cap` が CCC の entrypoint です。Host planning surface は CCC orchestration path ではありません。
 
 - 広い、危険、または曖昧な作業では、`$cap` で入り、CCC が `PLAN_SEQUENCE` を作成して設定済みの Way agent に planning を任せます。
-- host `/plan` や Plan Mode は外側の affordance として扱います。依頼を整理することはできますが、CCC LongWay planning を置き換えてはいけません。
-- `/goal` は host が対応している場合に、長期目標のヒントとして使えます。ただし実際の作業の基準は CCC の LongWay、checklist、fan-in、status です。
+- Host Plan Mode は operator が入力する内容を整理する助けにはなりますが、CCC が Way 内で background planning engine として trigger するものではありません。
+- CCC LongWay、task card、checklist、fan-in、status が実際の作業基準です。
 - 狭い作業では `$cap` だけで十分です。
 
 例:
 
 ```text
-/plan
-/goal リリース文書を利用者向けに簡潔に保つ
-$cap リリース README を整理し、0.0.13-pre の follow-up work を文書に記録して
+$cap リリース README 更新を計画し、blocking な Way 質問があれば先に聞き、LongWay 承認前にはファイルを変更しないで
 ```
 
 ## 推奨ロール設定
