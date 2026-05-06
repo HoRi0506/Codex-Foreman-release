@@ -20,6 +20,8 @@
 
 지원 플랫폼: `darwin-arm64`, `darwin-x86_64`, `linux-arm64`, `linux-x86_64`, `windows-x86_64`.
 
+이 pre-release의 follow-up note는 [`docs/0.0.13-pre-follow-ups.md`](./docs/0.0.13-pre-follow-ups.md)에 정리되어 있습니다.
+
 ## 설치
 
 macOS 또는 Linux:
