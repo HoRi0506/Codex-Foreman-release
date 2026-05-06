@@ -60,6 +60,21 @@ CCC treats `$cap` as the entrypoint. It owns the LongWay, task cards, checklist,
 
 Including the task scope makes `$cap` requests more accurate. For example: `$cap Update the README and remove stale release notes only`.
 
+For a compact subagent-only view, run:
+
+```text
+ccc status --subagents --text --json '{"run_id":"..."}'
+```
+
+If the host transcript folds longer output, run:
+
+```text
+ccc status --projection --json '{"run_id":"..."}'
+git diff -- CCC_LONGWAY_PROJECTION.md
+```
+
+The projection file is a display artifact only and is overwritten by the next projection update.
+
 ## Recommended Role Defaults
 
 For regular CCC use, ChatGPT Pro $100 is the recommended starting plan because `$cap` workflows can spend more Codex usage through repeated captain and specialist handoffs. Adjust reasoning by your working style and task risk: keep higher reasoning for broad planning, risky code changes, or reviews, and lower it for narrow, repetitive, or low-risk tasks.

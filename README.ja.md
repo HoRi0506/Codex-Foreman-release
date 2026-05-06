@@ -60,6 +60,21 @@ CCC では `$cap` が entrypoint です。LongWay、task card、checklist、fan-
 
 作業範囲も一緒に書くと、`$cap` の依頼がより正確になります。たとえば `$cap README の古い案内だけを整理して` のように書けます。
 
+subagent ごとの状態だけを短く見るには、次を実行します。
+
+```text
+ccc status --subagents --text --json '{"run_id":"..."}'
+```
+
+host transcript が長い出力を折りたたむ場合は、projection file を更新して diff で確認できます。
+
+```text
+ccc status --projection --json '{"run_id":"..."}'
+git diff -- CCC_LONGWAY_PROJECTION.md
+```
+
+projection file は表示用 artifact で、次の projection 更新で上書きされます。
+
 ## 推奨ロール設定
 
 CCC を日常的に使う場合は、ChatGPT Pro $100 plan を開始点として推奨します。`$cap` workflow は captain と specialist handoff を繰り返すため、Codex usage を多めに使うことがあるためです。Reasoning は作業スタイルと作業リスクに合わせて調整してください。広い計画、リスクの高いコード変更、レビューでは高い reasoning を維持し、狭く反復的で低リスクな作業では下げてもかまいません。
