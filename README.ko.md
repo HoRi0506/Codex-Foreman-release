@@ -48,33 +48,6 @@ ccc check-install
 
 업데이트할 때도 같은 설치 명령을 다시 실행한 뒤 Codex CLI를 재시작하고 `ccc check-install`을 실행하세요.
 
-## 기본 사용법
-
-요청 앞에 `$cap`을 붙이면 CCC가 작업을 관리합니다.
-
-```text
-$cap 인증 흐름을 리팩터링하고 테스트가 통과하도록 유지해줘
-```
-
-CCC에서 `$cap`은 진입점입니다. LongWay, task card, checklist, fan-in, status, restart handoff는 CCC가 관리합니다.
-
-작업 범위를 함께 적으면 더 정확합니다. 예를 들어 `$cap README ko 문서에서 오래된 안내만 정리해줘`처럼 요청하면 됩니다.
-
-서브에이전트별 상태만 짧게 보고 싶다면 다음을 실행하세요.
-
-```text
-ccc status --subagents --text --json '{"run_id":"..."}'
-```
-
-host transcript가 긴 출력을 접어서 보여줄 때는 다음처럼 projection 파일을 갱신하고 diff로 확인할 수 있습니다.
-
-```text
-ccc status --projection --json '{"run_id":"..."}'
-git diff -- CCC_LONGWAY_PROJECTION.md
-```
-
-projection 파일은 표시용 artifact이며 다음 projection 갱신 때 덮어써집니다.
-
 ## 추천 역할 설정
 
 CCC를 자주 사용한다면 ChatGPT Pro $100 요금제를 시작점으로 권장합니다. `$cap` workflow는 captain과 specialist handoff를 반복하면서 Codex 사용량을 더 많이 쓸 수 있기 때문입니다. Reasoning은 사용자의 작업 스타일과 작업 위험도에 맞춰 조정하세요. 넓은 계획, 위험한 코드 변경, 리뷰에는 높은 reasoning을 유지하고, 좁고 반복적이거나 위험이 낮은 작업에는 낮춰도 됩니다.
