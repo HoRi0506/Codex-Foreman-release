@@ -18,9 +18,7 @@ Then something remarkable can unfold.</em></p>
 
 Current public release: `0.0.13-pre`.
 
-Supported platforms: `darwin-arm64`, `darwin-x86_64`, `linux-arm64`, `linux-x86_64`, `windows-x86_64`.
-
-Follow-up notes for this pre-release are tracked in [`docs/0.0.13-pre-follow-ups.md`](./docs/0.0.13-pre-follow-ups.md).
+Supported release targets are exactly `darwin-arm64`, `darwin-x86_64`, `linux-arm64`, `linux-x86_64`, and `windows-x86_64`. macOS targets are normally supported and expected to work. Linux and Windows targets are available, but may still have platform-specific issues.
 
 ## Install
 

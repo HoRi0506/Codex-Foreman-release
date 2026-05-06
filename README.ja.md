@@ -18,9 +18,7 @@
 
 現在の公開バージョン: `0.0.13-pre`.
 
-サポート対象プラットフォーム: `darwin-arm64`、`darwin-x86_64`、`linux-arm64`、`linux-x86_64`、`windows-x86_64`.
-
-この pre-release の follow-up note は [`docs/0.0.13-pre-follow-ups.md`](./docs/0.0.13-pre-follow-ups.md) にあります。
+サポート対象の release target は `darwin-arm64`、`darwin-x86_64`、`linux-arm64`、`linux-x86_64`、`windows-x86_64` です。macOS target は通常サポートされ、動作する想定です。Linux と Windows target も提供していますが、platform-specific な問題が残っている可能性があります。
 
 ## インストール
 

@@ -18,9 +18,7 @@
 
 현재 공개 버전: `0.0.13-pre`.
 
-지원 플랫폼: `darwin-arm64`, `darwin-x86_64`, `linux-arm64`, `linux-x86_64`, `windows-x86_64`.
-
-이 pre-release의 follow-up note는 [`docs/0.0.13-pre-follow-ups.md`](./docs/0.0.13-pre-follow-ups.md)에 정리되어 있습니다.
+지원 release target은 정확히 `darwin-arm64`, `darwin-x86_64`, `linux-arm64`, `linux-x86_64`, `windows-x86_64`입니다. macOS target은 일반적으로 지원되며 동작할 것으로 기대합니다. Linux와 Windows target도 제공하지만 platform-specific 문제가 남아 있을 수 있습니다.
 
 ## 설치
 
