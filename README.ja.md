@@ -20,7 +20,7 @@
 
 CCC は Codex CLI のための captain-first orchestration layer です。`$cap` だけを public entrypoint として維持し、LongWay/task-card/fan-in state を保存し、specialist 作業を設定済みの `ccc_*` agent にルーティングしてから captain review に戻します。
 
-## インストールまたは更新
+## インストール、更新、削除
 
 基本のインストール経路:
 
@@ -38,6 +38,10 @@ ccc check-install
 ```
 
 Windows PowerShell も同じ Cargo ベースの経路を使います。
+
+既存の Cargo install を更新する場合は、`cargo install codex-cli-captain --force` を再実行してから `ccc setup` を実行してください。その後 Codex CLI を完全に再起動し、`ccc check-install` で確認します。
+
+Cargo でインストールした binary を削除する場合は、`cargo uninstall codex-cli-captain` を実行してください。CCC-managed な整理も必要なら、まず `ccc uninstall --dry-run` で計画を確認し、内容が正しいときだけ `ccc uninstall --confirm` を実行します。MCP registration、`ccc-config.toml`、skills、custom agent を削除する前に `ccc check-install` で現在の状態を確認してください。
 
 レガシー release-bundle fallback のみ:
 
@@ -65,7 +69,7 @@ Then run:
 ccc check-install
 ```
 
-更新する場合も同じインストールコマンドを再実行し、Codex CLI を完全に再起動してから `ccc check-install` を実行してください。installer は新しい bundle を active path に切り替える前に stage し、以前の release bundle を rollback 用に保持し、CCC-managed plugin と `$cap` ファイルを更新します。stale cache/version entry と legacy packaged cap copy のうち CCC が管理するものだけを整理し、non-CCC Codex config は保持します。
+更新する場合も `cargo install codex-cli-captain --force` を再実行してから `ccc setup` を実行してください。その後 Codex CLI を完全に再起動し、`ccc check-install` を実行してください。installer は新しい bundle を active path に切り替える前に stage し、以前の release bundle を rollback 用に保持し、CCC-managed plugin と `$cap` ファイルを更新します。stale cache/version entry と legacy packaged cap copy のうち CCC が管理するものだけを整理し、non-CCC Codex config は保持します。
 
 release installer は既定で `v0.0.1` に固定されています。`CCC_VERSION` は意図的に別の release を入れる場合だけ設定してください。
 

@@ -20,7 +20,7 @@
 
 CCC는 Codex CLI를 위한 captain-first orchestration layer입니다. `$cap`만 public entrypoint로 유지하고, LongWay/task-card/fan-in 상태를 저장하며, specialist 작업을 설정된 `ccc_*` agent로 라우팅한 뒤 captain review로 합칩니다.
 
-## 설치 또는 업데이트
+## 설치, 업데이트, 삭제
 
 기본 설치 경로:
 
@@ -38,6 +38,10 @@ ccc check-install
 ```
 
 Windows PowerShell도 같은 Cargo 기본 경로를 사용합니다.
+
+기존 Cargo install을 업데이트할 때는 `cargo install codex-cli-captain --force`를 다시 실행한 뒤 `ccc setup`을 실행하세요. 그 다음 Codex CLI를 완전히 재시작하고 `ccc check-install`로 확인합니다.
+
+Cargo로 설치한 binary를 삭제할 때는 `cargo uninstall codex-cli-captain`를 실행하세요. CCC-managed 정리까지 필요하면 먼저 `ccc uninstall --dry-run`으로 계획을 확인하고, 내용이 맞을 때만 `ccc uninstall --confirm`를 실행합니다. MCP registration, `ccc-config.toml`, skills, custom agent를 지우기 전에 `ccc check-install`로 현재 상태를 확인하세요.
 
 레거시 release-bundle fallback만:
 
@@ -65,7 +69,7 @@ Then run:
 ccc check-install
 ```
 
-업데이트할 때도 같은 설치 명령을 다시 실행하고, Codex CLI를 완전히 재시작한 뒤 `ccc check-install`을 실행하세요. installer는 새 bundle을 active path로 바꾸기 전에 stage하고, 이전 release bundle을 rollback용으로 보존하며, CCC-managed plugin 및 `$cap` 파일을 갱신합니다. stale cache/version entry와 legacy packaged cap copy 중 CCC가 관리하는 항목만 정리하고, non-CCC Codex config는 보존합니다.
+업데이트할 때도 `cargo install codex-cli-captain --force`를 다시 실행한 뒤 `ccc setup`을 실행하세요. 그 다음 Codex CLI를 완전히 재시작하고 `ccc check-install`을 실행하세요. installer는 새 bundle을 active path로 바꾸기 전에 stage하고, 이전 release bundle을 rollback용으로 보존하며, CCC-managed plugin 및 `$cap` 파일을 갱신합니다. stale cache/version entry와 legacy packaged cap copy 중 CCC가 관리하는 항목만 정리하고, non-CCC Codex config는 보존합니다.
 
 release installer는 기본적으로 `v0.0.1`에 고정되어 있습니다. `CCC_VERSION`은 의도적으로 다른 release를 설치할 때만 설정하세요.
 

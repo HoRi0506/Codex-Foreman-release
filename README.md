@@ -20,7 +20,7 @@ Current public release: `0.0.1`.
 
 CCC is a captain-first orchestration layer for Codex CLI. It keeps `$cap` as the only public entrypoint, persists LongWay/task-card/fan-in state, and routes specialist work through configured `ccc_*` agents before captain review.
 
-## Install Or Update
+## Install, Update, Uninstall
 
 Primary install path:
 
@@ -36,6 +36,23 @@ Start a new Codex CLI session.
 Then run:
 ccc check-install
 ```
+
+To update an existing Cargo install, rerun:
+
+```text
+cargo install codex-cli-captain --force
+ccc setup
+```
+
+Then fully restart Codex CLI and run `ccc check-install`.
+
+To uninstall the Cargo-installed binary:
+
+```text
+cargo uninstall codex-cli-captain
+```
+
+If you also want CCC-managed cleanup, run `ccc uninstall --dry-run` first to review the plan, then `ccc uninstall --confirm` only if the preview is correct. Use `ccc check-install` before removing MCP registration, `ccc-config.toml`, skills, or custom agents.
 
 Windows PowerShell uses the same primary Cargo path.
 
@@ -65,7 +82,7 @@ Then run:
 ccc check-install
 ```
 
-To update, rerun `cargo install codex-cli-captain` and then `ccc setup`, fully restart Codex CLI, and run `ccc check-install`. Use the legacy release-bundle installer only when you intentionally want the packaged `install.sh`/`install.ps1` fallback. The bundle installer stages the new bundle before switching the active path, preserves previous release bundles for rollback, refreshes CCC-managed plugin and `$cap` files, and only cleans CCC-managed stale cache/version entries plus the legacy packaged cap copy. Non-CCC Codex config is preserved. `cargo publish` is maintainer-only release work that needs the release token and approval outside this end-user README.
+To update, rerun `cargo install codex-cli-captain --force` and then `ccc setup`, fully restart Codex CLI, and run `ccc check-install`. Use the legacy release-bundle installer only when you intentionally want the packaged `install.sh`/`install.ps1` fallback. The bundle installer stages the new bundle before switching the active path, preserves previous release bundles for rollback, refreshes CCC-managed plugin and `$cap` files, and only cleans CCC-managed stale cache/version entries plus the legacy packaged cap copy. Non-CCC Codex config is preserved. `cargo publish` is maintainer-only release work that needs the release token and approval outside this end-user README.
 
 Release installers are pinned to `v0.0.1` by default. Set `CCC_VERSION` only when you intentionally want a different release.
 

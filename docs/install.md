@@ -10,6 +10,10 @@ Use this guide for the Cargo-first `0.0.1` install surface.
 4. start a new Codex CLI session
 5. run `ccc check-install`
 
+To update an existing Cargo install, rerun `cargo install codex-cli-captain --force`, then `ccc setup`, fully restart Codex CLI, and run `ccc check-install`.
+
+To uninstall the Cargo-installed binary, run `cargo uninstall codex-cli-captain`. If you also want CCC-managed cleanup, run `ccc uninstall --dry-run` first, then `ccc uninstall --confirm` if the preview is correct. Use `ccc check-install` before removing MCP registration, `ccc-config.toml`, skills, or custom agents.
+
 Windows PowerShell uses the same primary Cargo path.
 
 Legacy `install.sh`/`install.ps1` release-bundle fallback:
@@ -34,7 +38,9 @@ Then fully exit Codex CLI, start a new Codex CLI session, and run:
 ./target/debug/ccc check-install
 ```
 
-For updates, repeat `cargo install codex-cli-captain`, then `ccc setup`, restart Codex CLI, and run `ccc check-install`. `CCC_VERSION` remains the explicit override for the legacy bundle fallback, but the public installers stay pinned to `v0.0.1` unless you set it intentionally. `ccc setup` refreshes MCP registration, the packaged `$cap` skill, and CCC-managed custom agents from the current binary and `ccc-config.toml`; restart Codex CLI before checking the refreshed install.
+For updates, repeat `cargo install codex-cli-captain --force`, then `ccc setup`, restart Codex CLI, and run `ccc check-install`. `CCC_VERSION` remains the explicit override for the legacy bundle fallback, but the public installers stay pinned to `v0.0.1` unless you set it intentionally. `ccc setup` refreshes MCP registration, the packaged `$cap` skill, and CCC-managed custom agents from the current binary and `ccc-config.toml`; restart Codex CLI before checking the refreshed install.
+
+If you build from a local checkout, treat that as maintainer/local-development fallback only, not as the public install flow.
 
 The release bundle also carries the CCC plugin packaging needed for install and discovery. `$cap` stays the public operator entrypoint.
 
