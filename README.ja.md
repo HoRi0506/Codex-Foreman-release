@@ -41,6 +41,12 @@ Windows PowerShell も同じ Cargo ベースの経路を使います。
 
 既存の Cargo install を更新する場合は、`cargo install codex-cli-captain --force` を再実行してから `ccc setup` を実行してください。その後 Codex CLI を完全に再起動し、`ccc check-install` で確認します。
 
+`ccc check-install` は hooks の準備状態、選択された実行経路、
+そして公開 config 形状も表示します。公開 config 形状は top-level
+`version`、`entry_policy.mode`、表示される agent 項目の
+`name`/`model`/`variant`/`fast_mode`、`agents.ghost`、さらに表示される
+LSP と `graph_context`/Graphify の default を指します。
+
 Cargo でインストールした binary を削除する場合は、`cargo uninstall codex-cli-captain` を実行してください。CCC-managed な整理も必要なら、まず `ccc uninstall --dry-run` で計画を確認し、内容が正しいときだけ `ccc uninstall --confirm` を実行します。MCP registration、`ccc-config.toml`、skills、custom agent を削除する前に `ccc check-install` で現在の状態を確認してください。
 
 レガシー release-bundle fallback のみ:
@@ -99,9 +105,22 @@ ccc check-install
 
 `ccc setup` はユーザーが変更した値を保持しつつ、不足している generated default を補完し、MCP registration、packaged `$cap` skill、CCC-managed custom agent を再同期します。
 
+`ccc setup` は対象の Codex surface が安全に読み込める場合にのみ
+hook asset をインストール/更新します。hooks を利用できない、無効、
+信頼されていない、または未対応の場合でも、CCC は CLI/MCP/status/fan-in
+の fallback を維持します。
+
+## Hooks 準備状況
+
+`ccc check-install` は hooks が利用可能かどうか、そして現在のセッ
+ションが hooks-first か CCC fallback かを示します。この出力と再起
+動案内を使えば、内部 routing の詳細を出さずに実行経路を確認でき
+ます。
+
 ## 公開される動作
 
 - `$cap` が公開 entrypoint です。
 - CCC は計画、変更、レビュー、fan-in のために内部 managed role を使います。内部 routing の詳細は runtime state と release-work docs に置き、public README には列挙しません。
 - `ccc setup` は現在の binary と `ccc-config.toml` から packaged `$cap` skill、MCP registration、plugin cache、managed agent を更新します。
-- `ccc check-install` は active binary、Cargo candidate、plugin/cache discovery、packaged `$cap` skill、stale path、restart の必要性を報告します。
+- `ccc setup` は対象の Codex surface が安全に読み込める場合にのみ hook asset も更新します。
+- `ccc check-install` は active binary、Cargo candidate、plugin/cache discovery、hooks 準備状況、公開 config 形状、packaged `$cap` skill、stale path、選択された実行経路、restart の必要性を報告します。

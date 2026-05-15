@@ -50,7 +50,11 @@ If a previous release-bundle install left `~/.local/bin/ccc` earlier than
 `~/.cargo/bin` in `PATH`, your shell can keep running the legacy binary after
 Cargo install. `ccc setup` and `ccc check-install` report the shell-resolved
 `ccc`, the Cargo candidate at `~/.cargo/bin/ccc`, the current executable, and
-whether `~/.local/bin/ccc` is shadowing Cargo. When shadowing is reported, run
+whether `~/.local/bin/ccc` is shadowing Cargo. `ccc check-install` also
+reports hooks readiness, the selected runtime path, and the public config
+shape: top-level `version`, `entry_policy.mode`, visible agent entries
+(`name`/`model`/`variant`/`fast_mode`), `agents.ghost`, and visible LSP plus
+`graph_context`/Graphify defaults. When shadowing is reported, run
 `~/.cargo/bin/ccc setup`, put `~/.cargo/bin` earlier in `PATH`, or remove or
 demote the legacy `~/.local/bin/ccc` after reviewing cleanup. Release-bundle
 rollback paths under `~/.local/share/ccc` stay preserved by default unless you
@@ -125,6 +129,17 @@ ccc check-install
 
 `ccc setup` preserves user-customized values while backfilling missing generated defaults and refreshing MCP registration, the packaged `$cap` skill, and CCC-managed custom agents.
 
+`ccc setup` only installs or refreshes hook assets when the target Codex
+surface can load them safely. If hooks are unavailable, disabled, untrusted, or
+unsupported, CCC keeps the CLI/MCP/status/fan-in fallback active and visible.
+
+## Hooks and Readiness
+
+`ccc check-install` reports whether hooks are available and whether CCC is
+using hooks-first or the CCC fallback path for the current session. Use that
+output together with the install-health and restart guidance to confirm the
+runtime path without exposing internal routing details.
+
 ## Public Behavior
 
 - `$cap` is the public entrypoint.
@@ -132,7 +147,9 @@ ccc check-install
   scenes. Internal routing details stay in runtime state and release-work docs,
   not in the public README.
 - `ccc setup` refreshes the packaged `$cap` skill, MCP registration, plugin
-  cache, and managed agents from the current binary and `ccc-config.toml`.
+  cache, and managed agents from the current binary and `ccc-config.toml`, and
+  only refreshes hook assets when the installed Codex surface can load them
+  safely.
 - `ccc check-install` reports the active binary, Cargo candidate, plugin/cache
-  discovery, packaged `$cap` skill, stale paths, and whether a restart is still
-  required.
+  discovery, hooks readiness, public config shape, packaged `$cap` skill,
+  stale paths, selected runtime path, and whether a restart is still required.

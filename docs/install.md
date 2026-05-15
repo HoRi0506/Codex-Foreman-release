@@ -20,10 +20,11 @@ even after `cargo install codex-cli-captain` succeeds.
 
 Run `ccc check-install` after Cargo install. It reports the shell-resolved
 `ccc`, the Cargo candidate at `~/.cargo/bin/ccc`, the current executable,
-whether `~/.local/bin/ccc` is shadowing Cargo, and stale release-bundle paths
-or caches such as `~/.local/share/ccc/releases/*`,
-`~/.local/share/ccc/current`, `~/.local/share/ccc/plugin-marketplace`, and
-stale `~/.codex/plugins/cache/ccc-local/ccc/<version>` entries.
+whether `~/.local/bin/ccc` is shadowing Cargo, hooks readiness, the selected
+runtime path, and stale release-bundle paths or caches such as
+`~/.local/share/ccc/releases/*`, `~/.local/share/ccc/current`,
+`~/.local/share/ccc/plugin-marketplace`, and stale
+`~/.codex/plugins/cache/ccc-local/ccc/<version>` entries.
 
 When shadowing is reported, run:
 
@@ -67,6 +68,11 @@ If you build from a local checkout, treat that as maintainer/local-development f
 
 The release bundle also carries the CCC plugin packaging needed for install and discovery. `$cap` stays the public operator entrypoint.
 
+`ccc setup` only installs or refreshes hook assets when the installed Codex
+surface can load them safely. When hooks are unavailable, disabled, untrusted,
+or unsupported, CCC keeps the CLI/MCP/status/fan-in fallback active and
+visible.
+
 ## Reapply Config Changes
 
 After editing `~/.config/ccc/ccc-config.toml`, paste this into Codex CLI:
@@ -80,3 +86,10 @@ Start a new Codex CLI session.
 Then run:
 ccc check-install
 ```
+
+## Hooks Readiness
+
+`ccc check-install` reports whether hooks are available and whether CCC is
+using hooks-first or the CCC fallback path. Use that output together with the
+restart guidance to confirm the runtime path without exposing internal routing
+details.
