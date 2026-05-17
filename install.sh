@@ -131,22 +131,6 @@ configure_codex_plugin() {
     cp "${PLUGIN_DIR}/share/skills/cap/SKILL.md" "${PLUGIN_DIR}/skills/cap/SKILL.md"
   fi
 
-  cat > "${PLUGIN_DIR}/.mcp.json" <<EOF
-{
-  "mcpServers": {
-    "ccc": {
-      "command": "${PLUGIN_CACHE_DIR}/bin/ccc",
-      "args": [
-        "mcp"
-      ]
-    }
-  }
-}
-EOF
-
-  rm -rf "$PLUGIN_CACHE_DIR"
-  mkdir -p "$PLUGIN_CACHE_DIR"
-  cp -R "${PLUGIN_DIR}/." "$PLUGIN_CACHE_DIR/"
   prune_old_plugin_cache_versions
   rm -rf "$LEGACY_CAP_SKILL_DIR"
 
@@ -179,7 +163,6 @@ EOF
   tmp_config="$(mktemp "${TMPDIR:-/tmp}/ccc-codex-config.XXXXXX")"
 
   awk '
-    /^\[mcp_servers\.ccc(\.|])/ { skip = 1; next }
     /^\[marketplaces\.ccc-local]/ { skip = 1; next }
     /^\[plugins\."ccc@ccc-local"]/ { skip = 1; next }
     /^\[/ { skip = 0 }
